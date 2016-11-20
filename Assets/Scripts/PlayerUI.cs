@@ -173,8 +173,18 @@ public class PlayerUI : MonoBehaviour {
 
 	public void AddAmmo(int shotgunAmmoAddition, int pistolAmmoAddition){
 
-		ammoAdditionCount[0].text = "+ " + shotgunAmmoAddition + " Ammo";
-		ammoAdditionCount[1].text = "+ " + pistolAmmoAddition + " Ammo";
+		if (shotgunAmmoAddition == 0){
+			ammoAdditionCount[0].text = "Ammo Full";
+		} else{
+			ammoAdditionCount[0].text = "+ " + shotgunAmmoAddition + " Ammo";
+		}
+
+		if (pistolAmmoAddition == 0){
+			ammoAdditionCount[1].text = "Ammo Full";
+		} else{
+			ammoAdditionCount[1].text = "+ " + pistolAmmoAddition + " Ammo";
+		}
+
 		ammoAddition.SetActive(true);
 		Invoke("AmmoUIDisappear", 2);
 	} 
