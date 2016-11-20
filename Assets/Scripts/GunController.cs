@@ -10,6 +10,7 @@ public class GunController : MonoBehaviour {
 	public AudioClip[] rhmSFX;
 	public AudioClip[] wetWillieSFX;
 	public AudioClip[] bigRedSFX;
+	public AudioClip noAmmo;
 
 
 	public enum Firemode{Single, Automatic};
@@ -180,6 +181,15 @@ public class GunController : MonoBehaviour {
 			FindObjectOfType<PlayerUI>().UpdateAmmo();
 			int index = Random.Range(0, rhmSFX.Length);
 			player.audioSourceMusic.PlayOneShot(rhmSFX[index], 2f);
+		} else if (Time.time > nextShotTime && player.ammo[1] == 0){
+			if (firemode == Firemode.Single){
+				if(!triggerReleasedSinceLastShot){
+					yield break;
+				}
+			}
+			nextShotTime = Time.time + msBetweenShots / 1000;
+			player.audioSourceMusic.PlayOneShot(noAmmo, 3f);
+
 		}
 	}
 
@@ -215,7 +225,16 @@ public class GunController : MonoBehaviour {
 			player.ammo[0]--;
 			FindObjectOfType<PlayerUI>().UpdateAmmo();
 			player.audioSourceMusic.PlayOneShot(doominatorSFX[0], 1.5f);
-		} 
+		} else if (Time.time > nextShotTime && player.ammo[0] == 0){
+			if (firemode == Firemode.Single){
+				if(!triggerReleasedSinceLastShot){
+					yield break;
+				}
+			}
+			nextShotTime = Time.time + msBetweenShots / 1000;
+			player.audioSourceMusic.PlayOneShot(noAmmo, 3f);
+
+		}
 	}
 
 	IEnumerator ShootWater(){
@@ -279,6 +298,15 @@ public class GunController : MonoBehaviour {
 
 			int index = Random.Range(0, bigRedSFX.Length);
 			player.audioSourceMusic.PlayOneShot(bigRedSFX[index], 2f);
+		} else if (Time.time > nextShotTime && player.ammo[2] == 0){
+			if (firemode == Firemode.Single){
+				if(!triggerReleasedSinceLastShot){
+					yield break;
+				}
+			}
+			nextShotTime = Time.time + msBetweenShots / 1000;
+			player.audioSourceMusic.PlayOneShot(noAmmo, 3f);
+
 		}
 	}
 
