@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class WateredObject : MonoBehaviour {
 
+	[Header("Sounds")]
+	public AudioClip growSound;
+
 	[Header("Attributes")]
 	public float heal = 20;
 	float growTime = 1.5f;
@@ -72,13 +75,16 @@ public class WateredObject : MonoBehaviour {
 	}
 
 	public IEnumerator Grow(){
+		
 		float randomGrowth = Random.Range(randomGrowthMin, randomGrowthMax);
 		float percent = 0;
 		float growSpeed = 1 / growTime; 
+
 		while (percent < 1){
 			percent += Time.deltaTime * growSpeed;
 			gameObject.transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(randomGrowth, randomGrowth, randomGrowth), percent);
 			yield return null;
 		}
 	}
+
 }

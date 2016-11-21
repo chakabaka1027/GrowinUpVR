@@ -73,11 +73,17 @@ public class WaterableObject : MonoBehaviour {
 				Destroy(Instantiate(waterShockwave, this.gameObject.transform.position + Vector3.up * 1f, Quaternion.Euler(-90, 0, 0)) as GameObject, 2f);
 
 				if (randomPlant < 40){
-					Instantiate(tree1, this.gameObject.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
+					GameObject currentPlant = Instantiate(tree1, this.gameObject.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+					currentPlant.GetComponent<AudioSource>().PlayOneShot(FindObjectOfType<WateredObject>().growSound, .5f);
+		
 				} else if(randomPlant > 40 && randomPlant < 80){
-					Instantiate(tree2, this.gameObject.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
+					GameObject currentPlant = Instantiate(tree2, this.gameObject.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+					currentPlant.GetComponent<AudioSource>().PlayOneShot(FindObjectOfType<WateredObject>().growSound, .5f);
+
 				} else if (randomPlant > 20){
-					Instantiate(pumpkin, this.gameObject.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0));
+					GameObject currentPlant = Instantiate(pumpkin, this.gameObject.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+					currentPlant.GetComponent<AudioSource>().PlayOneShot(FindObjectOfType<WateredObject>().growSound, .5f);
+
 				}
 
 				hasPlayed = true;

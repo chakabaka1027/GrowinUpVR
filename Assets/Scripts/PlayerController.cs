@@ -17,7 +17,6 @@ public class PlayerController : LivingEntity {
 
 	public AudioClip BigRedAmmo;
 
-
 	[Header("Movement")]
 	public float walkSpeed = 5f;
 	public float runSpeed = 100f;
@@ -400,4 +399,5 @@ public class PlayerController : LivingEntity {
 			yield return null;
 		}
 	}
+
 }
