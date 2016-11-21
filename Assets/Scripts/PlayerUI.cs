@@ -7,6 +7,10 @@ public class PlayerUI : MonoBehaviour {
 
 	public GameObject gameplayUI;
 
+	[Header("Sounds")]
+	public AudioClip heartBeat;
+	public AudioSource heartBeatSource;
+
 	[Header("Intro Text")]
 	public Text introText;
 	public GameObject rightMouseButtonUI;
@@ -175,10 +179,13 @@ public class PlayerUI : MonoBehaviour {
 
 	public void LowHealth(){
 		lowHealthAnimationUI.SetActive(true);
+		heartBeatSource.Play();
 	}
 
 	public void Healthy(){
 		lowHealthAnimationUI.SetActive(false);
+		heartBeatSource.Stop();
+
 
 	}
 
