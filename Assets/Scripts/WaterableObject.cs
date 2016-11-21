@@ -102,8 +102,9 @@ public class WaterableObject : MonoBehaviour {
 				FindObjectOfType<PlayerUI>().UnlockWeaponText("Dr. Ray, PhD Unlocked!", 0);
 				player.weaponNames[3] = "Dr. Ray, PhD";
 
-				//unlock pew pew weapon ui
+				//unlock raygun weapon ui
 				FindObjectOfType<PlayerUI>().UnlockWeapon(FindObjectOfType<PlayerUI>().thePewPewUI);
+				FindObjectOfType<PlayerUI>().StartCoroutine(FindObjectOfType<PlayerUI>().UnlockAnimation());
 
 				player.WeaponSwitch(3);
 				FindObjectOfType<PlayerUI>().thePewPewUI.SetActive(true);
@@ -131,7 +132,6 @@ public class WaterableObject : MonoBehaviour {
 			GetComponent<BoxCollider>().enabled = false;
 			GetComponent<MeshRenderer>().enabled = false;
 			gameObject.SetActive(false);
-			//FindObjectOfType<PlayerUI>().SubtractGrowCount();
 			DestroySprout();
 		}
 

@@ -104,6 +104,8 @@ public class Enemy : LivingEntity {
 		if (player.killCycleCount == player.doominatorKillCount && player.hasDoominator == false){
 
 			FindObjectOfType<PlayerUI>().UnlockWeaponText("Doominator Unlocked!", 0);
+			FindObjectOfType<PlayerUI>().StartCoroutine(FindObjectOfType<PlayerUI>().UnlockAnimation());
+
 
 			//unlock doominator weapon ui
 			playerUI.UnlockWeapon(playerUI.doominatorUI);
@@ -124,6 +126,8 @@ public class Enemy : LivingEntity {
 		} else if (player.killCycleCount == player.rhmKillCount && player.hasRHM == false){
 
 			FindObjectOfType<PlayerUI>().UnlockWeaponText("Reverend Unlocked!", 0);
+			FindObjectOfType<PlayerUI>().StartCoroutine(FindObjectOfType<PlayerUI>().UnlockAnimation());
+
 
 			//unlock rhm weapon ui
 			playerUI.UnlockWeapon(playerUI.rhmUI);
@@ -150,6 +154,8 @@ public class Enemy : LivingEntity {
 		} else if (player.killCycleCount == player.bigRedInitialKillCount && player.hasRHM == true && player.hasBigRed == false){
 
 			FindObjectOfType<PlayerUI>().UnlockWeaponText("Big Red Unlocked!", 0);
+			FindObjectOfType<PlayerUI>().StartCoroutine(FindObjectOfType<PlayerUI>().UnlockAnimation());
+
 
 			//unlock doominator weapon ui
 			playerUI.UnlockWeapon(playerUI.BigRedUI);

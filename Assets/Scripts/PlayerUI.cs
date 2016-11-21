@@ -67,6 +67,7 @@ public class PlayerUI : MonoBehaviour {
 	public GameObject rhmIcon;
 	public GameObject doominatorIcon;
 	public GameObject bigRedIcon;
+	public GameObject padlock;
 
 
 	// Use this for initialization
@@ -347,6 +348,30 @@ public class PlayerUI : MonoBehaviour {
 	public void UnlockWeapon(GameObject weaponUI){
 		weaponUI.GetComponent<Button>().interactable = true;
 		weaponUI.transform.GetChild(0).gameObject.SetActive(false);
+	}
+
+	public IEnumerator UnlockAnimation(){
+		padlock.SetActive(true);
+
+		Color color = padlock.GetComponent<Image>().color;
+		color = Color.white;
+		color.a = 192;
+
+		padlock.GetComponent<Image>().color = color;
+
+		yield return new WaitForSeconds(0.25f);
+		padlock.GetComponent<Animator>().Play("Unlock");
+
+		float percent = 0;
+		float time = 1.5f;
+		float speed = 1 / time;
+
+		yield return new WaitForSeconds(1.1f);
+		while (percent < 1){
+			percent += Time.deltaTime * speed;
+			padlock.GetComponent<Image>().color = Color.Lerp(Color.white, Color.clear, percent);
+			yield return null;
+		}
 	}
 
 }
