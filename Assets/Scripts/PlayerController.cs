@@ -215,6 +215,9 @@ public class PlayerController : LivingEntity {
 		FindObjectOfType<PlayerUI>().TakeDamageUI();
 
 		base.TakeDamage (damage);
+		if(health <= 20){
+			FindObjectOfType<PlayerUI>().LowHealth();
+		}
 	}
 
 	public override void Die (){
@@ -230,6 +233,11 @@ public class PlayerController : LivingEntity {
 			health = startingHealth;
 		}
 		FindObjectOfType<PlayerUI>().GainHealth(health, heal);
+
+		if(health >= 20){
+			FindObjectOfType<PlayerUI>().Healthy();
+		}
+
 	}
 
 	public void WeaponSwitchUIChange(int weaponIndex){

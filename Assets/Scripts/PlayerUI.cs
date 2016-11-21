@@ -35,13 +35,14 @@ public class PlayerUI : MonoBehaviour {
 	public Image healthUI;
 	public Text GrowCounter;
 	int growCount = 0;
+	public GameObject damageUI;
+	public GameObject lowHealthAnimationUI;
 
 	[Header("Ammo")]
 	public GameObject ammoAddition;
 	public Text[] ammoAdditionCount;
 	public Image[] ammoAdditionIcons;
 	public Text[] ammoCount;
-	public GameObject damageUI;
 
 	public GameObject ammoAdditionRHM;
 	public GameObject ammoAdditionDoominator;
@@ -168,6 +169,15 @@ public class PlayerUI : MonoBehaviour {
 		damageUI.SetActive(true);
 		damageUI.GetComponent<Image>().CrossFadeAlpha(1, 0.01f, false);
 		damageUI.GetComponent<Image>().CrossFadeAlpha(0, 1, false);
+
+	}
+
+	public void LowHealth(){
+		lowHealthAnimationUI.SetActive(true);
+	}
+
+	public void Healthy(){
+		lowHealthAnimationUI.SetActive(false);
 
 	}
 
