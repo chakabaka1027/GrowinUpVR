@@ -179,14 +179,14 @@ public class PlayerUI : MonoBehaviour {
 
 	public void LowHealth(){
 		lowHealthAnimationUI.SetActive(true);
-		heartBeatSource.Play();
+		if (heartBeatSource.isPlaying == false){
+			heartBeatSource.Play();
+		}
 	}
 
 	public void Healthy(){
 		lowHealthAnimationUI.SetActive(false);
 		heartBeatSource.Stop();
-
-
 	}
 
 	public void AddAmmo(int shotgunAmmoAddition, int pistolAmmoAddition){

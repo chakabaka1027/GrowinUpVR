@@ -221,6 +221,7 @@ public class PlayerController : LivingEntity {
 	}
 
 	public override void Die (){
+		FindObjectOfType<PlayerUI>().heartBeatSource.mute = true;
 		base.Die ();
 		DeathAnimation();
 		StartCoroutine(FindObjectOfType<PlayerUI>().GameOver());
