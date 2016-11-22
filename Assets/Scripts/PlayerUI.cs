@@ -39,6 +39,7 @@ public class PlayerUI : MonoBehaviour {
 	public Image healthUI;
 	public Text GrowCounter;
 	int growCount = 0;
+	public GameObject growCounterIcon;
 	public GameObject damageUI;
 	public GameObject lowHealthAnimationUI;
 
@@ -153,6 +154,7 @@ public class PlayerUI : MonoBehaviour {
 	public void AddGrowCount(){
 		growCount ++;
 		GrowCounter.text = "" + growCount;
+		growCounterIcon.GetComponent<Animator>().Play("BackingGrow");
 	}
 
 	public void SubtractGrowCount(){
@@ -161,6 +163,8 @@ public class PlayerUI : MonoBehaviour {
 			growCount = 0;
 		}
 		GrowCounter.text = "" + growCount;
+		growCounterIcon.GetComponent<Animator>().Play("BackingShrink");
+
 	}
 
 	void SpawnHealthParticles(){
