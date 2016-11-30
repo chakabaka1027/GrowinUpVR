@@ -7,6 +7,8 @@ public class CabbageBear : LivingEntity {
 
 	NavMeshAgent pathfinder;
 	Transform target;
+	float myCollisionRadius = 2;
+	float targetCollisionRadius = 2;
 
 
 	// Use this for initialization
@@ -19,17 +21,37 @@ public class CabbageBear : LivingEntity {
 		NavToClosestSprout();
 	}
 
-	void NavToClosestSprout(){
+	void Update(){
 
-
-		Vector3 targetPosition = new Vector3(target.position.x, target.position.y, target.position.z);
-		if(!dead){
-			pathfinder.SetDestination(targetPosition);
+		//if the target has been reached
+	
+		if(!pathfinder.pathPending){
+			if(pathfinder.remainingDistance <= pathfinder.stoppingDistance){
+				if(!pathfinder.hasPath || pathfinder.velocity.sqrMagnitude == 0f){
+					GetComponent<Animator>().Play("Attacking");
+				}
+			}
 		}
 	}
 
+	void NavToClosestSprout(){
+
+		Vector3 originalPosition = transform.position;
+		Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+		Vector3 targetPosition = target.position - dirToTarget * (targetCollisionRadius + myCollisionRadius);
+
+//		Vector3 targetPosition = new Vector3(target.position.x, target.position.y, target.position.z);
+		if(!dead){
+			pathfinder.SetDestination(targetPosition);
+		}
+
+	}
+
+
+
 	GameObject FindClosestSprout() {
-		Collider[] existingSprouts = Physics.OverlapSphere(transform.position, 15, seekableObjects);
+		Collider[] existingSprouts = Physics.OverlapSphere(transform.position, 50, seekableObjects);
 
 
 //		GameObject[] sprouts = GameObject.FindGameObjectsWithTag("TreeDuplicator");
@@ -47,8 +69,10 @@ public class CabbageBear : LivingEntity {
         }
 
         return closest;
-    
+	}
 
+	void FaceTarget(){
+		transform.LookAt(target);
 	}
 		
 }
