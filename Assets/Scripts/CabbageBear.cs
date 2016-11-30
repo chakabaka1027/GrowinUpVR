@@ -4,6 +4,7 @@ using System.Collections;
 public class CabbageBear : LivingEntity {
 
 	public LayerMask seekableObjects;
+	public AnimationClip attackingAnimation;
 
 	public GameObject fire;
 
@@ -31,12 +32,13 @@ public class CabbageBear : LivingEntity {
 		if(!pathfinder.pathPending){
 			if(pathfinder.remainingDistance <= pathfinder.stoppingDistance){
 				if(!pathfinder.hasPath || pathfinder.velocity.sqrMagnitude == 0f){
-					GetComponent<Animator>().Play("Attacking");
-					Attack(target.transform.position);
+
+					StartCoroutine(Attack(target.transform.position));
 
 				}
 			}
 		}
+
 	}
 
 	void NavToClosestSprout(){
@@ -64,14 +66,18 @@ public class CabbageBear : LivingEntity {
 		GameObject closest = null;
        	float distance = Mathf.Infinity;
         Vector3 position = transform.position;
-        foreach (Collider sprout in existingSprouts) {
-          	Vector3 diff = sprout.transform.position - position;
-            float curDistance = diff.sqrMagnitude;
-            if (curDistance < distance) {
-            	closest = sprout.gameObject;
-               	distance = curDistance;
-            }
-        }
+
+        if (existingSprouts.Length > 0){
+
+	        foreach (Collider sprout in existingSprouts) {
+	          	Vector3 diff = sprout.transform.position - position;
+	            float curDistance = diff.sqrMagnitude;
+	            if (curDistance < distance) {
+	            	closest = sprout.gameObject;
+	               	distance = curDistance;
+	            }
+	        }
+	    }
 
         return closest;
 	}
@@ -80,14 +86,27 @@ public class CabbageBear : LivingEntity {
 		transform.LookAt(target.transform.position);
 	}
 
-	void Attack(Vector3 attackPosition){
-		if (target.GetComponent<WaterableObject>().isOnFire == false){
+	IEnumerator Attack(Vector3 attackPosition){
+		if (target != null){
 
-			Instantiate(fire, attackPosition, Quaternion.identity);
+			if (target.GetComponent<WaterableObject>().isOnFire == false){
 
-			target.GetComponent<WaterableObject>().isOnFire = true;
+				Instantiate(fire, attackPosition, Quaternion.identity);
+
+				target.GetComponent<WaterableObject>().isOnFire = true;
+				GetComponent<Animator>().Play("Attacking");
+				yield return new WaitForSeconds(attackingAnimation.length * 2);
+				GetComponent<Animator>().Stop();
+
+
+			}
+
+		//if the target is destroyed on the way there, look again for another one -> not working yet
+		} else if (target == null) {
+			target = FindClosestSprout();
+			StartCoroutine(Attack(target.transform.position));
+
 		}
-
 	}
 
 	public IEnumerator Grow(){
