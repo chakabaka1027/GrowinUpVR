@@ -46,7 +46,7 @@ public class AppleBomb : MonoBehaviour {
 			}
 
 			if (col.gameObject.tag == "Enemy"){
-				col.GetComponent<Enemy>().Die();
+				col.GetComponent<PickleBear>().Die();
 			}
 
 			if (col.gameObject.tag == "TreeDuplicator"){

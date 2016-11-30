@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof (NavMeshAgent))]
-public class Enemy : LivingEntity {
+public class PickleBear : LivingEntity {
 
 	[Header("Sounds")]
 	public AudioClip[] deathSounds;
@@ -113,7 +113,7 @@ public class Enemy : LivingEntity {
 			player.weaponNames[0] = "Doominator";
 
 
-			player.WeaponSwitch(0);
+//			player.WeaponSwitch(0);
 			playerUI.doominatorUI.SetActive(true);
 			player.hasDoominator = true;
 			player.killCycleCount = 0;
@@ -135,7 +135,7 @@ public class Enemy : LivingEntity {
 			player.weaponNames[2] = "Reverend";
 
 
-			player.WeaponSwitch(2);
+//			player.WeaponSwitch(2);
 			player.killCycleCount = 0;
 			playerUI.AddKillCount(player.killCycleCount);
 			playerUI.rhmUI.SetActive(true);
@@ -163,7 +163,7 @@ public class Enemy : LivingEntity {
 			player.weaponNames[4] = "Big Red";
 
 
-			player.WeaponSwitch(4);
+//			player.WeaponSwitch(4);
 			player.killCycleCount = 0;
 			playerUI.AddKillCount(player.killCycleCount);
 			playerUI.BigRedUI.SetActive(true);

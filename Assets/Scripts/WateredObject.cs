@@ -85,6 +85,7 @@ public class WateredObject : MonoBehaviour {
 			gameObject.transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(randomGrowth, randomGrowth, randomGrowth), percent);
 			yield return null;
 		}
+
 	}
 
 }

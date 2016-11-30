@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityStandardAssets.ImageEffects;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class PlayerController : LivingEntity {
 
