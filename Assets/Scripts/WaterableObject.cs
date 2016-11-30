@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class WaterableObject : MonoBehaviour {
 
+	public bool isOnFire = false;
+
 	[Header("Attributes")]
 	public LayerMask waterable;
 	public float heal = 10;

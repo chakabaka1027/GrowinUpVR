@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class WateredObject : MonoBehaviour {
 
+	public bool isOnFire = false;
+
 	[Header("Sounds")]
 	public AudioClip growSound;
 
