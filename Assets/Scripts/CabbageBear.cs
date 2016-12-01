@@ -8,8 +8,11 @@ public class CabbageBear : LivingEntity {
 
 	public GameObject fire;
 
+	bool isAttacking;
+
 	NavMeshAgent pathfinder;
-	GameObject target;
+
+	public GameObject target;
 	float myCollisionRadius = 2;
 	float targetCollisionRadius = 2;
 
@@ -18,68 +21,99 @@ public class CabbageBear : LivingEntity {
 	protected override void Start () {
 		base.Start();
 		StartCoroutine(Grow());
-		GetComponent<Animator>().Play("Waddling");
 		pathfinder = GetComponent<NavMeshAgent>();
-		target = FindClosestSprout();
+		FindClosestSprout();
 
-		NavToClosestSprout();
 	}
 
 	void Update(){
 
-		//if the target has been reached
-	
-		if(!pathfinder.pathPending){
-			if(pathfinder.remainingDistance <= pathfinder.stoppingDistance){
-				if(!pathfinder.hasPath || pathfinder.velocity.sqrMagnitude == 0f){
+		//if the target has been reached and it is not on fire, attack it
+		if (target != null && target.GetComponent<WaterableObject>() != null && !target.GetComponent<WaterableObject>().isOnFire || target.GetComponent<WateredObject>() != null && !target.GetComponent<WateredObject>().isOnFire){
+			if(!pathfinder.pathPending){
+				if(pathfinder.remainingDistance <= pathfinder.stoppingDistance){
+					if(!pathfinder.hasPath || pathfinder.velocity.sqrMagnitude == 0f){
+						if (isAttacking == false){
+							StartCoroutine(Attack(target.transform.position));
+						}
 
-					StartCoroutine(Attack(target.transform.position));
-
+					}
 				}
 			}
 		}
 
-	}
-
-	void NavToClosestSprout(){
-
-		Vector3 originalPosition = transform.position;
-		Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
-
-		Vector3 targetPosition = target.transform.position - dirToTarget * (targetCollisionRadius + myCollisionRadius);
-
-//		Vector3 targetPosition = new Vector3(target.position.x, target.position.y, target.position.z);
-		if(!dead){
-			pathfinder.SetDestination(targetPosition);
+		if (target == null || target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire || target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire){
+//			pathfinder.Stop();
+			print("Finding New Target");
+			FindClosestSprout();
 		}
 
 	}
 
+	void FindClosestSprout() {
+		isAttacking = false;
 
-
-	GameObject FindClosestSprout() {
 		Collider[] existingSprouts = Physics.OverlapSphere(transform.position, 50, seekableObjects);
-
-
-//		GameObject[] sprouts = GameObject.FindGameObjectsWithTag("TreeDuplicator");
 
 		GameObject closest = null;
        	float distance = Mathf.Infinity;
         Vector3 position = transform.position;
 
+
         if (existingSprouts.Length > 0){
-
 	        foreach (Collider sprout in existingSprouts) {
-	          	Vector3 diff = sprout.transform.position - position;
-	            float curDistance = diff.sqrMagnitude;
-	            if (curDistance < distance) {
-	            	closest = sprout.gameObject;
-	               	distance = curDistance;
-	            }
-	        }
-	    }
 
-        return closest;
+	        	//only if the sprout is not on fire, consider it
+				if (sprout.gameObject.GetComponent<WaterableObject>() != null && !sprout.gameObject.GetComponent<WaterableObject>().isOnFire || sprout.gameObject.GetComponent<WateredObject>() != null && !sprout.gameObject.GetComponent<WateredObject>().isOnFire){
+		          	Vector3 diff = sprout.transform.position - position;
+		            float curDistance = diff.sqrMagnitude;
+		            if (curDistance < distance) {
+		            	closest = sprout.gameObject;
+		               	distance = curDistance;
+		               	target = closest;
+
+						print("Found target");
+
+		               	NavToClosestSprout(closest);
+	
+		            }
+				}
+	        } 
+		} 
+
+		//if no sprouts exist or all are on fire, do an idle animation
+		else if (existingSprouts.Length <= 0 || IfAllOnFire(existingSprouts) == true){
+			print("No more targets");
+
+			pathfinder.Stop();
+        	GetComponent<Animator>().Play("Idle");
+        }
+	}
+
+	bool IfAllOnFire(Collider[] existingSprouts){
+		for(int i = 0; i < existingSprouts.Length; i++){
+			if (existingSprouts[i].gameObject.GetComponent<WaterableObject>() != null && existingSprouts[i].gameObject.GetComponent<WaterableObject>().isOnFire || existingSprouts[i].gameObject.GetComponent<WateredObject>() != null && existingSprouts[i].gameObject.GetComponent<WateredObject>().isOnFire){
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	void NavToClosestSprout(GameObject closestTarget){
+		if(target != null){
+			print("Moving to Target");
+
+			Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
+
+			Vector3 targetPosition = target.transform.position - dirToTarget * (targetCollisionRadius + myCollisionRadius);
+
+			if(!dead){
+				GetComponent<Animator>().Play("Waddling");
+				pathfinder.SetDestination(targetPosition);
+			}
+		}
 	}
 
 	void FaceTarget(){
@@ -87,24 +121,35 @@ public class CabbageBear : LivingEntity {
 	}
 
 	IEnumerator Attack(Vector3 attackPosition){
-		if (target != null){
 
-			if (target.GetComponent<WaterableObject>().isOnFire == false){
+		if (target != null && isAttacking == false){
+			isAttacking = true;
+			print("attacking");
+
+			if (target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire == false){
 
 				Instantiate(fire, attackPosition, Quaternion.identity);
 
-				target.GetComponent<WaterableObject>().isOnFire = true;
+//				if (target.GetComponent<WaterableObject>() != null){
+					target.GetComponent<WaterableObject>().isOnFire = true;
+//				} else if (target.GetComponent<WateredObject>() != null){
+//					target.GetComponent<WateredObject>().isOnFire = true;
+//				}
+
+
 				GetComponent<Animator>().Play("Attacking");
 				yield return new WaitForSeconds(attackingAnimation.length * 2);
 				GetComponent<Animator>().Stop();
 
 
-			}
+			} else if (target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire == false){
+				Instantiate(fire, attackPosition, Quaternion.identity);
 
-		//if the target is destroyed on the way there, look again for another one -> not working yet
-		} else if (target == null) {
-			target = FindClosestSprout();
-			StartCoroutine(Attack(target.transform.position));
+				target.GetComponent<WateredObject>().isOnFire = true;
+				GetComponent<Animator>().Play("Attacking");
+				yield return new WaitForSeconds(attackingAnimation.length * 2);
+				GetComponent<Animator>().Stop();
+			}
 
 		}
 	}
