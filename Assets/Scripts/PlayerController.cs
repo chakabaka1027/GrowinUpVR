@@ -11,6 +11,8 @@ public class PlayerController : LivingEntity {
 	public LayerMask groundedMask;
 	public GameObject recoilHandler;
 
+	bool takingDamage = false;
+
 	[Header("Sounds")]
 	public GameObject musicPlayer;
 	public AudioSource audioSourceMusic;
@@ -212,13 +214,22 @@ public class PlayerController : LivingEntity {
 	}
 
 	public override void TakeDamage (float damage){
-		FindObjectOfType<PlayerUI>().LoseHealth(health, damage);
-		FindObjectOfType<PlayerUI>().TakeDamageUI();
+		if (takingDamage == false){
+			takingDamage = true;
+			StartCoroutine(PostDamageInvulnerability());
+			FindObjectOfType<PlayerUI>().LoseHealth(health, damage);
+			FindObjectOfType<PlayerUI>().TakeDamageUI();
 
-		base.TakeDamage (damage);
-		if(health <= 20){
-			FindObjectOfType<PlayerUI>().LowHealth();
+			base.TakeDamage (damage);
+			if(health <= 20){
+				FindObjectOfType<PlayerUI>().LowHealth();
+			}
 		}
+	}
+
+	IEnumerator PostDamageInvulnerability(){
+		yield return new WaitForSeconds (1);
+		takingDamage = false;
 	}
 
 	public override void Die (){
