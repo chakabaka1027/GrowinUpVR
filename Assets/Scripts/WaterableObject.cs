@@ -108,7 +108,7 @@ public class WaterableObject : MonoBehaviour {
 				FindObjectOfType<PlayerUI>().UnlockWeapon(FindObjectOfType<PlayerUI>().thePewPewUI);
 				FindObjectOfType<PlayerUI>().StartCoroutine(FindObjectOfType<PlayerUI>().UnlockAnimation());
 
-//				player.WeaponSwitch(3);
+				player.WeaponSwitch(3);
 				FindObjectOfType<PlayerUI>().thePewPewUI.SetActive(true);
 			}
 

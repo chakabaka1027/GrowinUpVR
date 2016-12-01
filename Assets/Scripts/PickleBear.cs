@@ -113,7 +113,7 @@ public class PickleBear : LivingEntity {
 			player.weaponNames[0] = "Doominator";
 
 
-//			player.WeaponSwitch(0);
+			player.WeaponSwitch(0);
 			playerUI.doominatorUI.SetActive(true);
 			player.hasDoominator = true;
 			player.killCycleCount = 0;
@@ -135,7 +135,7 @@ public class PickleBear : LivingEntity {
 			player.weaponNames[2] = "Reverend";
 
 
-//			player.WeaponSwitch(2);
+			player.WeaponSwitch(2);
 			player.killCycleCount = 0;
 			playerUI.AddKillCount(player.killCycleCount);
 			playerUI.rhmUI.SetActive(true);
@@ -148,7 +148,7 @@ public class PickleBear : LivingEntity {
 
 	
 			FindObjectOfType<Spawner>().StopCoroutine("SlowSpawner");
-			FindObjectOfType<Spawner>().StartCoroutine("SpawnEnemy");
+			FindObjectOfType<Spawner>().StartCoroutine("SpawnPickleBear");
 
 		//unlock bigred and allow to continually get ammo for it after getting it first
 		} else if (player.killCycleCount == player.bigRedInitialKillCount && player.hasRHM == true && player.hasBigRed == false){
@@ -163,7 +163,7 @@ public class PickleBear : LivingEntity {
 			player.weaponNames[4] = "Big Red";
 
 
-//			player.WeaponSwitch(4);
+			player.WeaponSwitch(4);
 			player.killCycleCount = 0;
 			playerUI.AddKillCount(player.killCycleCount);
 			playerUI.BigRedUI.SetActive(true);
