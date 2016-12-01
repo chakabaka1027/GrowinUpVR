@@ -56,6 +56,9 @@ public class WaterableObject : MonoBehaviour {
 	void Update () {		
 		if (waterFillPercentage < 1){
 			waterFillPercentage += -Time.deltaTime * 0.2f;
+			if (waterFillPercentage < 0){
+				waterFillPercentage = 0;
+			}
 		}
 	}
 

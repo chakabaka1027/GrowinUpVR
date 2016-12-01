@@ -42,7 +42,8 @@ public class CabbageBear : LivingEntity {
 		}
 
 		else if (target == null || target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire && isAttacking == false || target != null && target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire && isAttacking == false){
-//			print("Finding New Target");
+//			pathfinder.Stop();
+			print("Finding New Target");
 			FindClosestSprout();
 		}
 
@@ -70,7 +71,7 @@ public class CabbageBear : LivingEntity {
 		               	distance = curDistance;
 		               	target = closest;
 
-//						print("Found target");
+						print("Found target");
 
 		               	NavToClosestSprout(closest);
 	
@@ -81,7 +82,7 @@ public class CabbageBear : LivingEntity {
 
 		//if no sprouts exist or all are on fire, do an idle animation
 		else if (existingSprouts.Length <= 0 || IfAllOnFire(existingSprouts) == true){
-//			print("No more targets");
+			print("No more targets");
 
 			pathfinder.Stop();
         	GetComponent<Animator>().Play("Idle");
@@ -100,7 +101,7 @@ public class CabbageBear : LivingEntity {
 	}
 
 	void NavToClosestSprout(GameObject closestTarget){
-//		print("Moving to Target");
+		print("Moving to Target");
 
 		Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
 
@@ -117,6 +118,9 @@ public class CabbageBear : LivingEntity {
 		Quaternion currentRotation = transform.rotation;
 		Vector3 direction = (target.transform.position - transform.position).normalized;
 		Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+
+
 
 		float percent = 0;
 		float turnTime = 1;
@@ -135,7 +139,7 @@ public class CabbageBear : LivingEntity {
 	IEnumerator Attack(Vector3 attackPosition){
 		StartCoroutine(FaceTarget());
 		if (target != null && isAttacking == false){
-//			print("attacking");
+			print("attacking");
 
 			if (target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire == false){
 				isAttacking = true;
