@@ -41,8 +41,9 @@ public class CabbageBear : LivingEntity {
 			}
 		}
 
-		else if (target == null || target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire && isAttacking == false || target != null && target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire && isAttacking == false){
-//			pathfinder.Stop();
+
+		//if there is no target or the target is on fire
+		if (target == null || target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire && isAttacking == false || target != null && target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire && isAttacking == false){
 			print("Finding New Target");
 			FindClosestSprout();
 		}
@@ -108,6 +109,8 @@ public class CabbageBear : LivingEntity {
 		Vector3 targetPosition = target.transform.position - dirToTarget * (targetCollisionRadius + myCollisionRadius);
 
 		if(!dead){
+			pathfinder.Resume();
+
 			GetComponent<Animator>().Play("Waddling");
 			pathfinder.SetDestination(targetPosition);
 		}
@@ -133,7 +136,6 @@ public class CabbageBear : LivingEntity {
 		}
 
 
-		transform.LookAt(target.transform.position);
 	}
 
 	IEnumerator Attack(Vector3 attackPosition){

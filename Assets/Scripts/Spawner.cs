@@ -54,7 +54,7 @@ public class Spawner : MonoBehaviour {
 
 	public IEnumerator SpawnCabbageBear(){
 
-		yield return new WaitForSeconds(15);
+		yield return new WaitForSeconds(7);
 		GameObject enemyInstance = Instantiate(cabbageBear, new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15)), Quaternion.identity) as GameObject;
 		enemyInstance.transform.parent = gameObject.transform;	
 
