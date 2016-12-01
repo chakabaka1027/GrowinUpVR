@@ -41,9 +41,8 @@ public class CabbageBear : LivingEntity {
 			}
 		}
 
-		else if (target == null || target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire || target != null && target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire){
-//			pathfinder.Stop();
-			print("Finding New Target");
+		else if (target == null || target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire && isAttacking == false || target != null && target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire && isAttacking == false){
+//			print("Finding New Target");
 			FindClosestSprout();
 		}
 
@@ -71,7 +70,7 @@ public class CabbageBear : LivingEntity {
 		               	distance = curDistance;
 		               	target = closest;
 
-						print("Found target");
+//						print("Found target");
 
 		               	NavToClosestSprout(closest);
 	
@@ -82,14 +81,13 @@ public class CabbageBear : LivingEntity {
 
 		//if no sprouts exist or all are on fire, do an idle animation
 		else if (existingSprouts.Length <= 0 || IfAllOnFire(existingSprouts) == true){
-			print("No more targets");
+//			print("No more targets");
 
 			pathfinder.Stop();
         	GetComponent<Animator>().Play("Idle");
         }
 	}
 
-	//not sure if this method works yet
 	bool IfAllOnFire(Collider[] existingSprouts){
 		for(int i = 0; i < existingSprouts.Length; i++){
 			if (existingSprouts[i].gameObject.GetComponent<WaterableObject>() != null && existingSprouts[i].gameObject.GetComponent<WaterableObject>().isOnFire || existingSprouts[i].gameObject.GetComponent<WateredObject>() != null && existingSprouts[i].gameObject.GetComponent<WateredObject>().isOnFire){
@@ -102,31 +100,45 @@ public class CabbageBear : LivingEntity {
 	}
 
 	void NavToClosestSprout(GameObject closestTarget){
-//		if(target != null){
-			print("Moving to Target");
+//		print("Moving to Target");
 
-			Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
+		Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
 
-			Vector3 targetPosition = target.transform.position - dirToTarget * (targetCollisionRadius + myCollisionRadius);
+		Vector3 targetPosition = target.transform.position - dirToTarget * (targetCollisionRadius + myCollisionRadius);
 
-			if(!dead){
-				GetComponent<Animator>().Play("Waddling");
-				pathfinder.SetDestination(targetPosition);
-			}
-//		}
+		if(!dead){
+			GetComponent<Animator>().Play("Waddling");
+			pathfinder.SetDestination(targetPosition);
+		}
 	}
 
-	void FaceTarget(){
+	IEnumerator FaceTarget(){
+
+		Quaternion currentRotation = transform.rotation;
+		Vector3 direction = (target.transform.position - transform.position).normalized;
+		Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+		float percent = 0;
+		float turnTime = 1;
+		float turnSpeed = 1 / turnTime;
+
+		while(percent < 1){
+			percent +=  Time.deltaTime * turnSpeed;
+			transform.rotation = Quaternion.Lerp(currentRotation, lookRotation, percent);
+			yield return null;
+		}
+
+
 		transform.LookAt(target.transform.position);
 	}
 
 	IEnumerator Attack(Vector3 attackPosition){
-
+		StartCoroutine(FaceTarget());
 		if (target != null && isAttacking == false){
-			isAttacking = true;
-			print("attacking");
+//			print("attacking");
 
 			if (target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire == false){
+				isAttacking = true;
 
 				Instantiate(fire, attackPosition, Quaternion.identity);
 
@@ -136,16 +148,22 @@ public class CabbageBear : LivingEntity {
 
 				GetComponent<Animator>().Play("Attacking");
 				yield return new WaitForSeconds(attackingAnimation.length * 2);
-				GetComponent<Animator>().Play("Waddling");
+				GetComponent<Animator>().Play("Idle");
+				isAttacking = false;
+
 
 
 			} else if (target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire == false){
+				isAttacking = true;
+
 				Instantiate(fire, attackPosition, Quaternion.identity);
 
 				target.GetComponent<WateredObject>().isOnFire = true;
-				GetComponent<Animator>().Play("Idle");
+				GetComponent<Animator>().Play("Attacking");
 				yield return new WaitForSeconds(attackingAnimation.length * 2);
 				GetComponent<Animator>().Play("Idle");
+				isAttacking = false;
+
 			}
 
 		}
