@@ -226,6 +226,7 @@ public class PlayerController : LivingEntity {
 		base.Die ();
 		DeathAnimation();
 		StartCoroutine(FindObjectOfType<PlayerUI>().GameOver());
+		GetComponent<CapsuleCollider>().enabled = false;
 	}
 
 
