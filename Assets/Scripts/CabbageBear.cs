@@ -19,9 +19,10 @@ public class CabbageBear : LivingEntity {
 
 	// Use this for initialization
 	protected override void Start () {
+		pathfinder = GetComponent<NavMeshAgent>();
+
 		base.Start();
 		StartCoroutine(Grow());
-		pathfinder = GetComponent<NavMeshAgent>();
 		FindClosestSprout();
 
 	}
@@ -29,20 +30,18 @@ public class CabbageBear : LivingEntity {
 	void Update(){
 
 		//if the target has been reached and it is not on fire, attack it
-		if (target != null && target.GetComponent<WaterableObject>() != null && !target.GetComponent<WaterableObject>().isOnFire || target.GetComponent<WateredObject>() != null && !target.GetComponent<WateredObject>().isOnFire){
+		if (target != null && target.GetComponent<WaterableObject>() != null && !target.GetComponent<WaterableObject>().isOnFire || target != null && target.GetComponent<WateredObject>() != null && !target.GetComponent<WateredObject>().isOnFire){
 			if(!pathfinder.pathPending){
 				if(pathfinder.remainingDistance <= pathfinder.stoppingDistance){
-					if(!pathfinder.hasPath || pathfinder.velocity.sqrMagnitude == 0f){
-						if (isAttacking == false){
-							StartCoroutine(Attack(target.transform.position));
-						}
+					if(!pathfinder.hasPath || pathfinder.velocity.sqrMagnitude <= 0f){
+						StartCoroutine(Attack(target.transform.position));
 
 					}
 				}
 			}
 		}
 
-		if (target == null || target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire || target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire){
+		else if (target == null || target.GetComponent<WaterableObject>() != null && target.GetComponent<WaterableObject>().isOnFire || target != null && target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire){
 //			pathfinder.Stop();
 			print("Finding New Target");
 			FindClosestSprout();
@@ -90,6 +89,7 @@ public class CabbageBear : LivingEntity {
         }
 	}
 
+	//not sure if this method works yet
 	bool IfAllOnFire(Collider[] existingSprouts){
 		for(int i = 0; i < existingSprouts.Length; i++){
 			if (existingSprouts[i].gameObject.GetComponent<WaterableObject>() != null && existingSprouts[i].gameObject.GetComponent<WaterableObject>().isOnFire || existingSprouts[i].gameObject.GetComponent<WateredObject>() != null && existingSprouts[i].gameObject.GetComponent<WateredObject>().isOnFire){
@@ -102,7 +102,7 @@ public class CabbageBear : LivingEntity {
 	}
 
 	void NavToClosestSprout(GameObject closestTarget){
-		if(target != null){
+//		if(target != null){
 			print("Moving to Target");
 
 			Vector3 dirToTarget = (target.transform.position - transform.position).normalized;
@@ -113,7 +113,7 @@ public class CabbageBear : LivingEntity {
 				GetComponent<Animator>().Play("Waddling");
 				pathfinder.SetDestination(targetPosition);
 			}
-		}
+//		}
 	}
 
 	void FaceTarget(){
@@ -130,25 +130,22 @@ public class CabbageBear : LivingEntity {
 
 				Instantiate(fire, attackPosition, Quaternion.identity);
 
-//				if (target.GetComponent<WaterableObject>() != null){
-					target.GetComponent<WaterableObject>().isOnFire = true;
-//				} else if (target.GetComponent<WateredObject>() != null){
-//					target.GetComponent<WateredObject>().isOnFire = true;
-//				}
+				target.GetComponent<WaterableObject>().isOnFire = true;
+
 
 
 				GetComponent<Animator>().Play("Attacking");
 				yield return new WaitForSeconds(attackingAnimation.length * 2);
-				GetComponent<Animator>().Stop();
+				GetComponent<Animator>().Play("Waddling");
 
 
 			} else if (target.GetComponent<WateredObject>() != null && target.GetComponent<WateredObject>().isOnFire == false){
 				Instantiate(fire, attackPosition, Quaternion.identity);
 
 				target.GetComponent<WateredObject>().isOnFire = true;
-				GetComponent<Animator>().Play("Attacking");
+				GetComponent<Animator>().Play("Idle");
 				yield return new WaitForSeconds(attackingAnimation.length * 2);
-				GetComponent<Animator>().Stop();
+				GetComponent<Animator>().Play("Idle");
 			}
 
 		}
