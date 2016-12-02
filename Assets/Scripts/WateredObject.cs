@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class WateredObject : MonoBehaviour {
 
 	public bool isOnFire = false;
+	public GameObject fire;
 
 	[Header("Sounds")]
 	public AudioClip growSound;
@@ -42,22 +43,29 @@ public class WateredObject : MonoBehaviour {
 
 	}
 
-	public void FillDamage(){
+	public void FillDamage(float damageAmount){
+
 		if (isDamaged == false){
-			damageableFill.fillAmount += Time.deltaTime * 6;
-			damageFillPercentage = damageableFill.fillAmount;
+			damageFillPercentage += Time.deltaTime * damageAmount;
+
+//			damageableFill.fillAmount += Time.deltaTime * damageAmount;
+//			damageFillPercentage = damageableFill.fillAmount;
 		}
 
-		if (damageFillPercentage == 1){
+		if (damageFillPercentage >= 1){
 			GetComponent<BoxCollider>().enabled = false;
 			GetComponent<MeshRenderer>().enabled = false;
 			gameObject.SetActive(false);
+
 			DestroyWateredObject();
 		}
+
 	}
 
 	public void DestroyWateredObject(){
 		player.GainHealth(heal);
+		isOnFire = false;
+
 			FindObjectOfType<PlayerUI>().SubtractGrowCount();
 			Destroy(Instantiate(explosion, this.gameObject.transform.position + Vector3.up * 1f, Quaternion.Euler(-90, 0, 0)) as GameObject, 5f);
 			damageableUI.SetActive(false);
@@ -88,6 +96,20 @@ public class WateredObject : MonoBehaviour {
 			yield return null;
 		}
 
+	}
+
+	public IEnumerator OnFire(){
+		if (isOnFire == true){
+			GameObject flame = Instantiate(fire, gameObject.transform.position, Quaternion.identity) as GameObject;
+			flame.transform.parent = gameObject.transform;
+
+			while(isOnFire == true){
+				
+				yield return new WaitForSeconds(0.5f);
+				FillDamage(1);
+			}
+
+		}
 	}
 
 }

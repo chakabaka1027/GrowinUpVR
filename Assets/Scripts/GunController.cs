@@ -339,14 +339,14 @@ public class GunController : MonoBehaviour {
 		WaterableObject waterableObject = hit.collider.GetComponent<WaterableObject>();
 		if (waterableObject != null){
 			waterableObject.damageableFill.fillAmount = waterableObject.damageFillPercentage;
-			waterableObject.FillDamage();
+			waterableObject.FillDamage(6);
 		}
 
 		WateredObject wateredObject = hit.collider.GetComponent<WateredObject>();
 
 		if (wateredObject != null){
 			wateredObject.damageableFill.fillAmount = wateredObject.damageFillPercentage;
-			wateredObject.FillDamage();
+			wateredObject.FillDamage(6);
 		}
 
 		IDamageable damageableObject = hit.collider.GetComponent<IDamageable>();

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class WaterableObject : MonoBehaviour {
 
 	public bool isOnFire = false;
+	public GameObject fire;
 
 	[Header("Attributes")]
 	public LayerMask waterable;
@@ -127,16 +128,20 @@ public class WaterableObject : MonoBehaviour {
 		}
 	}
 
-	public void FillDamage(){
+	public void FillDamage(float damageAmount){
+
 		if (isDamaged == false){
-			damageableFill.fillAmount += Time.deltaTime * 6;
-			damageFillPercentage = damageableFill.fillAmount;
+			damageFillPercentage += Time.deltaTime * damageAmount;
+
+//			damageableFill.fillAmount += Time.deltaTime * damageAmount;
+//			damageFillPercentage = damageableFill.fillAmount;
 		}
 
-		if (damageFillPercentage == 1){
+		if (damageFillPercentage >= 1){
 			GetComponent<BoxCollider>().enabled = false;
 			GetComponent<MeshRenderer>().enabled = false;
 			gameObject.SetActive(false);
+
 			DestroySprout();
 		}
 
@@ -144,6 +149,9 @@ public class WaterableObject : MonoBehaviour {
 
 	public void DestroySprout(){
 		player.GainHealth(heal);
+
+		isOnFire = false;
+
 
 		Destroy(Instantiate(explosion, this.gameObject.transform.position + Vector3.up * 1f, Quaternion.Euler(-90, 0, 0)) as GameObject, 5f);
 		damageableUI.SetActive(false);
@@ -217,5 +225,17 @@ public class WaterableObject : MonoBehaviour {
 		FindObjectOfType<PlayerUI>().UpdateAmmo();
 	}
 
+	public IEnumerator OnFire(){
+		if (isOnFire == true){
+			GameObject flame = Instantiate(fire, gameObject.transform.position, Quaternion.identity) as GameObject;
+			flame.transform.parent = gameObject.transform;
 
+			while(isOnFire == true){
+
+				yield return new WaitForSeconds(0.5f);
+				FillDamage(1);
+			}
+
+		}
+	}
 }
