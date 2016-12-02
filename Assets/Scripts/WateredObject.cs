@@ -118,8 +118,11 @@ public class WateredObject : MonoBehaviour {
 			while(isOnFire == true){
 				
 				yield return new WaitForSeconds(0.2f);
-				if (gameObject != null){
+
+				if (this != null){
 					FillDamage(.5f);
+				} else if (this == null){
+					break;
 				}
 			}
 

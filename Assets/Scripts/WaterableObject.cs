@@ -243,8 +243,10 @@ public class WaterableObject : MonoBehaviour {
 			while(isOnFire == true){
 
 				yield return new WaitForSeconds(0.5f);
-				if (gameObject != null){
+				if (this != null){
 					FillDamage(.5f);
+				} else if (this == null){
+					break;
 				}
 			}
 

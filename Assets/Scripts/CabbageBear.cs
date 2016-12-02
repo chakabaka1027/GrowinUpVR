@@ -172,8 +172,9 @@ public class CabbageBear : LivingEntity {
 
 				GetComponent<Animator>().Play("Attacking");
 				yield return new WaitForSeconds(attackingAnimation.length);
-
-				target.GetComponent<WaterableObject>().isOnFire = true;
+				if (target != null){
+					target.GetComponent<WaterableObject>().isOnFire = true;
+				}
 				StartCoroutine(target.GetComponent<WaterableObject>().OnFire());
 
 				yield return new WaitForSeconds(attackingAnimation.length);
