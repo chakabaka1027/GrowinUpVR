@@ -66,7 +66,7 @@ public class WaterableObject : MonoBehaviour {
 	public void FillWater(){
 
 		if (isWatered == false){
-			waterableFill.fillAmount += Time.deltaTime * 8;
+			waterableFill.fillAmount +=  .15f;
 			waterFillPercentage = waterableFill.fillAmount;
 		}
 
@@ -131,7 +131,7 @@ public class WaterableObject : MonoBehaviour {
 	public void FillDamage(float damageAmount){
 
 		if (isDamaged == false){
-			damageFillPercentage += Time.deltaTime * damageAmount;
+			damageFillPercentage += .1f * damageAmount;
 
 //			damageableFill.fillAmount += Time.deltaTime * damageAmount;
 //			damageFillPercentage = damageableFill.fillAmount;
@@ -148,10 +148,9 @@ public class WaterableObject : MonoBehaviour {
 	}
 
 	public void DestroySprout(){
-		player.GainHealth(heal);
-
-		isOnFire = false;
-
+		if(!isOnFire){
+			player.GainHealth(heal);
+		}
 
 		Destroy(Instantiate(explosion, this.gameObject.transform.position + Vector3.up * 1f, Quaternion.Euler(-90, 0, 0)) as GameObject, 5f);
 		damageableUI.SetActive(false);
@@ -233,7 +232,9 @@ public class WaterableObject : MonoBehaviour {
 			while(isOnFire == true){
 
 				yield return new WaitForSeconds(0.5f);
-				FillDamage(1);
+				if (gameObject != null){
+					FillDamage(.5f);
+				}
 			}
 
 		}

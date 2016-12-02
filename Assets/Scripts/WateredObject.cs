@@ -46,7 +46,7 @@ public class WateredObject : MonoBehaviour {
 	public void FillDamage(float damageAmount){
 
 		if (isDamaged == false){
-			damageFillPercentage += Time.deltaTime * damageAmount;
+			damageFillPercentage += .1f * damageAmount;
 
 //			damageableFill.fillAmount += Time.deltaTime * damageAmount;
 //			damageFillPercentage = damageableFill.fillAmount;
@@ -63,8 +63,9 @@ public class WateredObject : MonoBehaviour {
 	}
 
 	public void DestroyWateredObject(){
-		player.GainHealth(heal);
-		isOnFire = false;
+		if(!isOnFire){
+			player.GainHealth(heal);
+		}
 
 			FindObjectOfType<PlayerUI>().SubtractGrowCount();
 			Destroy(Instantiate(explosion, this.gameObject.transform.position + Vector3.up * 1f, Quaternion.Euler(-90, 0, 0)) as GameObject, 5f);
@@ -106,7 +107,9 @@ public class WateredObject : MonoBehaviour {
 			while(isOnFire == true){
 				
 				yield return new WaitForSeconds(0.5f);
-				FillDamage(1);
+				if (gameObject != null){
+					FillDamage(.5f);
+				}
 			}
 
 		}
