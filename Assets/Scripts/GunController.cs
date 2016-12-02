@@ -215,7 +215,7 @@ public class GunController : MonoBehaviour {
 				if(Physics.Raycast(viewCamera.transform.position, fireRotation * Vector3.forward, out hit, Mathf.Infinity, shootable)){
 					if(canDamage){
 						OnDamageObject(hit);
-					} else {
+					}  else {
 						OnMoveObject(hit);
 					}
 				}
@@ -355,7 +355,7 @@ public class GunController : MonoBehaviour {
 			damageableObject.TakeHit(damage, hit.point, viewCamera.gameObject.transform.forward);
 		}
 
-		if(hit.rigidbody != null){
+		if(hit.rigidbody != null && hit.collider.gameObject.tag != "Enemy"){
 			Vector3 hitDirection = -viewCamera.transform.forward;
 			hit.rigidbody.AddForce(-hitDirection * shotForce);
 		}

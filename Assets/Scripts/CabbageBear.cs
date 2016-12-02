@@ -8,6 +8,18 @@ public class CabbageBear : LivingEntity {
 
 	public GameObject fire;
 
+	public ParticleSystem deathParticles;
+	public ParticleSystem deathCloud;
+
+	AudioSource audioSource;
+	public AudioClip[] deathSounds;
+	public GameObject audioPlayer;
+
+
+
+
+
+
 	bool isAttacking;
 
 	NavMeshAgent pathfinder;
@@ -19,6 +31,8 @@ public class CabbageBear : LivingEntity {
 
 	// Use this for initialization
 	protected override void Start () {
+		audioSource = audioPlayer.GetComponent<AudioSource>();
+
 		pathfinder = GetComponent<NavMeshAgent>();
 
 		base.Start();
@@ -47,6 +61,15 @@ public class CabbageBear : LivingEntity {
 			print("Finding New Target");
 			FindClosestSprout();
 		}
+
+	}
+
+	public override void TakeHit(float damage, Vector3 hitPoint, Vector3 hitDirection){
+		if (damage >= health){
+			Instantiate(deathParticles, hitPoint, Quaternion.FromToRotation(Vector3.forward, hitDirection));
+		}
+
+		base.TakeHit(damage, hitPoint, hitDirection);
 
 	}
 
@@ -184,6 +207,21 @@ public class CabbageBear : LivingEntity {
 			gameObject.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one * 0.2265497f, percent);
 			yield return null;
 		}
+	}
+
+
+	public override void Die (){
+		Instantiate(deathCloud, gameObject.transform.position + Vector3.down * 0.75f, Quaternion.Euler(Vector3.left * 90));
+
+
+		int index = Random.Range(0, 5);
+		audioSource.PlayOneShot(deathSounds[index], 0.1f);
+		audioPlayer.transform.parent = null;
+		Destroy(audioPlayer,2);
+
+		base.Die ();
+
+		Destroy(gameObject);
 	}
 		
 }
