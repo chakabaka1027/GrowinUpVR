@@ -223,6 +223,9 @@ public class CabbageBear : LivingEntity {
 
 		base.Die ();
 
+		FindObjectOfType<PlayerController>().killCycleCount += 20;
+		FindObjectOfType<PlayerUI>().AddKillCount(FindObjectOfType<PlayerController>().killCycleCount);
+
 		Destroy(gameObject);
 	}
 		

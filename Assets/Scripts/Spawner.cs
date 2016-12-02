@@ -11,7 +11,6 @@ public class Spawner : MonoBehaviour {
 	float spawnRate = 2;
 
 	void Start(){
-		StartCoroutine(SpawnCabbageBear());
 	}
 
 	public IEnumerator TutorialSpawner(){
@@ -41,6 +40,7 @@ public class Spawner : MonoBehaviour {
 	}
 
 	public IEnumerator SpawnPickleBear(){
+		StartCoroutine(SpawnCabbageBear());
 
 		while(true){
 

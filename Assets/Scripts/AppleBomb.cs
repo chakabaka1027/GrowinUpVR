@@ -50,7 +50,7 @@ public class AppleBomb : MonoBehaviour {
 					col.GetComponent<PickleBear>().Die();
 				}
 				if (col.GetComponent<CabbageBear>() != null){
-					col.GetComponent<CabbageBear>().Die();
+					col.GetComponent<CabbageBear>().TakeHit(40, col.gameObject.transform.position, Camera.main.gameObject.transform.forward);
 				}
 			}
 
