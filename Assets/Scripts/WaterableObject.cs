@@ -7,6 +7,12 @@ public class WaterableObject : MonoBehaviour {
 	public bool isOnFire = false;
 	public GameObject fire;
 
+	[Header("Sounds")]
+	public AudioClip flameIgnite;
+	public AudioClip flameExtinguish;
+	public GameObject audioPlayer;
+	AudioSource audioSource;
+
 	[Header("Attributes")]
 	public LayerMask waterable;
 	public float heal = 10;
@@ -41,6 +47,7 @@ public class WaterableObject : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(Grow());
+		audioSource = audioPlayer.GetComponent<AudioSource>();
 		
 		if(waterableFill != null){
 			waterableFill.fillAmount = 0;
@@ -225,6 +232,10 @@ public class WaterableObject : MonoBehaviour {
 	}
 
 	public IEnumerator OnFire(){
+		if(audioSource != null){
+			audioSource.PlayOneShot(flameIgnite, 0.25f);
+		}
+
 		if (isOnFire == true){
 			GameObject flame = Instantiate(fire, gameObject.transform.position, Quaternion.identity) as GameObject;
 			flame.transform.parent = gameObject.transform;
@@ -241,6 +252,7 @@ public class WaterableObject : MonoBehaviour {
 	}
 
 	public void RemoveFire(){
+		audioSource.PlayOneShot(flameExtinguish, 0.2f);
 		GameObject flame = gameObject.transform.FindChild("FireComplex(Clone)").gameObject;
 		if (flame != null){
 			Destroy(flame);

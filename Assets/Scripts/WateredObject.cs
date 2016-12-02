@@ -10,6 +10,11 @@ public class WateredObject : MonoBehaviour {
 	[Header("Sounds")]
 	public AudioClip growSound;
 
+	public AudioClip flameIgnite;
+	public AudioClip flameExtinguish;
+	public GameObject audioPlayer;
+	AudioSource audioSource;
+
 	[Header("Attributes")]
 	public float heal = 20;
 	float growTime = 1.5f;
@@ -33,6 +38,8 @@ public class WateredObject : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(Grow());
+
+		audioSource = audioPlayer.GetComponent<AudioSource>();
 
 		if (damageableFill != null){
 			damageableFill.fillAmount = 0;
@@ -100,13 +107,17 @@ public class WateredObject : MonoBehaviour {
 	}
 
 	public IEnumerator OnFire(){
+		if (audioSource != null){
+			audioSource.PlayOneShot(flameIgnite, 0.25f);
+		}
+
 		if (isOnFire == true){
 			GameObject flame = Instantiate(fire, gameObject.transform.position, Quaternion.identity) as GameObject;
 			flame.transform.parent = gameObject.transform;
 
 			while(isOnFire == true){
 				
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(0.2f);
 				if (gameObject != null){
 					FillDamage(.5f);
 				}
@@ -116,6 +127,10 @@ public class WateredObject : MonoBehaviour {
 	}
 
 	public void RemoveFire(){
+		if (audioSource != null){
+			audioSource.PlayOneShot(flameExtinguish, 0.2f);
+		}
+
 		GameObject flame = gameObject.transform.FindChild("FireComplex(Clone)").gameObject;
 		if (flame != null){
 			Destroy(flame);

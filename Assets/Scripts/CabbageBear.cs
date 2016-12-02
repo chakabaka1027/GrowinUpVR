@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CabbageBear : LivingEntity {
 
@@ -7,6 +8,7 @@ public class CabbageBear : LivingEntity {
 	public AnimationClip attackingAnimation;
 
 	public GameObject fire;
+	public Image healthBarFill;
 
 	public ParticleSystem deathParticles;
 	public ParticleSystem deathCloud;
@@ -14,11 +16,6 @@ public class CabbageBear : LivingEntity {
 	AudioSource audioSource;
 	public AudioClip[] deathSounds;
 	public GameObject audioPlayer;
-
-
-
-
-
 
 	bool isAttacking;
 
@@ -70,6 +67,10 @@ public class CabbageBear : LivingEntity {
 		}
 
 		base.TakeHit(damage, hitPoint, hitDirection);
+
+		float healthPercentage = health / startingHealth;
+		healthBarFill.fillAmount = healthPercentage;
+
 
 	}
 
