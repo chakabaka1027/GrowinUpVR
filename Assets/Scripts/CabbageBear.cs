@@ -173,10 +173,13 @@ public class CabbageBear : LivingEntity {
 
 				target.GetComponent<WaterableObject>().isOnFire = true;
 
-				StartCoroutine(target.GetComponent<WaterableObject>().OnFire());
 
 				GetComponent<Animator>().Play("Attacking");
-				yield return new WaitForSeconds(attackingAnimation.length * 2);
+				yield return new WaitForSeconds(attackingAnimation.length);
+				StartCoroutine(target.GetComponent<WaterableObject>().OnFire());
+
+				yield return new WaitForSeconds(attackingAnimation.length);
+
 				GetComponent<Animator>().Play("Idle");
 				isAttacking = false;
 
@@ -188,10 +191,12 @@ public class CabbageBear : LivingEntity {
 //				Instantiate(fire, attackPosition, Quaternion.identity);
 				target.GetComponent<WateredObject>().isOnFire = true;
 
-				StartCoroutine(target.GetComponent<WateredObject>().OnFire());
 
 				GetComponent<Animator>().Play("Attacking");
-				yield return new WaitForSeconds(attackingAnimation.length * 2);
+				yield return new WaitForSeconds(attackingAnimation.length);
+				StartCoroutine(target.GetComponent<WateredObject>().OnFire());
+				yield return new WaitForSeconds(attackingAnimation.length);
+
 				GetComponent<Animator>().Play("Idle");
 				isAttacking = false;
 

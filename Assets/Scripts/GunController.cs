@@ -254,8 +254,14 @@ public class GunController : MonoBehaviour {
 			if(Physics.SphereCast(ray, 2f, viewCamera.transform.forward, out hit, 15, shootable)){
 
 				WaterableObject waterableObject = hit.collider.GetComponent<WaterableObject>();
-				if (waterableObject != null){
+				if (waterableObject != null && !waterableObject.isOnFire){
 					waterableObject.FillWater();
+				}
+
+				if (waterableObject != null && waterableObject.isOnFire){
+					waterableObject.RemoveFire();
+				} else if (hit.collider.GetComponent<WateredObject>() != null && hit.collider.GetComponent<WateredObject>().isOnFire){
+					hit.collider.GetComponent<WateredObject>().RemoveFire();
 				}
 			}
 

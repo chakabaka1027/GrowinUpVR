@@ -115,4 +115,12 @@ public class WateredObject : MonoBehaviour {
 		}
 	}
 
+	public void RemoveFire(){
+		GameObject flame = gameObject.transform.FindChild("FireComplex(Clone)").gameObject;
+		if (flame != null){
+			Destroy(flame);
+		}
+		isOnFire = false;
+	}
+
 }

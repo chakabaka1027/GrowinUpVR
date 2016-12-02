@@ -66,7 +66,7 @@ public class WaterableObject : MonoBehaviour {
 	public void FillWater(){
 
 		if (isWatered == false){
-			waterableFill.fillAmount +=  .15f;
+			waterableFill.fillAmount +=  .2f;
 			waterFillPercentage = waterableFill.fillAmount;
 		}
 
@@ -238,5 +238,13 @@ public class WaterableObject : MonoBehaviour {
 			}
 
 		}
+	}
+
+	public void RemoveFire(){
+		GameObject flame = gameObject.transform.FindChild("FireComplex(Clone)").gameObject;
+		if (flame != null){
+			Destroy(flame);
+		}
+		isOnFire = false;
 	}
 }
