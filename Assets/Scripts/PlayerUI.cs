@@ -108,7 +108,7 @@ public class PlayerUI : MonoBehaviour {
 
 		}
 
-		if(Physics.SphereCast(ray, 1f, viewCamera.transform.forward, out hit, 20, waterable) || Physics.Raycast(ray, viewCamera.transform.forward, out hit, 20, waterable)){
+		if(Physics.SphereCast(ray, 3f, viewCamera.transform.forward, out hit, 20, waterable) || Physics.Raycast(ray, viewCamera.transform.forward, out hit, 20, waterable)){
 			WaterableObject waterableObject = hit.collider.gameObject.GetComponent<WaterableObject>();
 			WateredObject wateredObject = hit.collider.gameObject.GetComponent<WateredObject>();
 

@@ -13,6 +13,11 @@ public class PlayerController : LivingEntity {
 
 	bool takingDamage = false;
 
+	[Header("WeaponWheelSelection")]
+	int index;
+	public enum WeaponSelected{None, WetWillie, RayGun, Doominator, Reverend, BigRed};
+	public WeaponSelected weaponSelected;
+
 	[Header("Sounds")]
 	public GameObject musicPlayer;
 	public AudioSource audioSourceMusic;
@@ -164,6 +169,34 @@ public class PlayerController : LivingEntity {
 			} else { 
 				WeaponSwitchInactive();
 			}
+
+			//selecting weapons when shift is released
+			if (Input.GetKeyUp(KeyCode.LeftShift)){
+				
+				if (weaponSelected == WeaponSelected.Doominator && index != 0){
+					WeaponSwitch(0);
+					index = 0;
+
+				} else if (weaponSelected == WeaponSelected.WetWillie && index != 1){
+					WeaponSwitch(1);
+					index = 1;
+
+				} else if (weaponSelected == WeaponSelected.Reverend && index != 2){
+					WeaponSwitch(2);
+					index = 2;
+
+				} else if (weaponSelected == WeaponSelected.RayGun && index != 3){
+					WeaponSwitch(3);
+					index = 3;
+
+				} else if (weaponSelected == WeaponSelected.BigRed && index != 4){
+					WeaponSwitch(4);
+					index = 4;
+
+				}
+
+			} 
+
 		}
 
 
@@ -256,6 +289,23 @@ public class PlayerController : LivingEntity {
 
 	public void WeaponSwitchUIChange(int weaponIndex){
 		weaponNameText.text = weaponNames[weaponIndex];
+
+		if(weaponIndex == 0){
+			weaponSelected = WeaponSelected.Doominator;
+		} else if (weaponIndex == 1){
+			weaponSelected = WeaponSelected.WetWillie;
+
+		} else if (weaponIndex == 2){
+			weaponSelected = WeaponSelected.Reverend;
+
+		} else if (weaponIndex == 3){
+			weaponSelected = WeaponSelected.RayGun;
+
+		} else if (weaponIndex == 4){
+			weaponSelected = WeaponSelected.BigRed;
+
+		} 
+
 	}
 
 	void WeaponSwitchActive(){
