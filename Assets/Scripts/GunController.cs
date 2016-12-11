@@ -251,7 +251,7 @@ public class GunController : MonoBehaviour {
 			RaycastHit hit;
 
 //			if(Physics.Raycast(ray, viewCamera.transform.forward, out hit, 15, shootable)){
-			if(Physics.SphereCast(ray, 2f, viewCamera.transform.forward, out hit, 15, shootable)){
+			if(Physics.SphereCast(ray, 2f, viewCamera.transform.forward, out hit, 15, shootable) || Physics.Raycast(ray, viewCamera.transform.forward, out hit, 15, shootable)){
 
 				WaterableObject waterableObject = hit.collider.GetComponent<WaterableObject>();
 				if (waterableObject != null && !waterableObject.isOnFire){
