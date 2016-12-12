@@ -114,6 +114,7 @@ public class PickleBear : LivingEntity {
 
 
 			player.WeaponSwitch(0);
+			player.doominatorUnlocked = true;
 			playerUI.doominatorUI.SetActive(true);
 			player.hasDoominator = true;
 			player.killCycleCount = 0;
@@ -131,7 +132,7 @@ public class PickleBear : LivingEntity {
 
 			//unlock rhm weapon ui
 			playerUI.UnlockWeapon(playerUI.rhmUI);
-
+			player.reverendUnlocked = true;
 			player.weaponNames[2] = "Reverend";
 
 
@@ -164,6 +165,7 @@ public class PickleBear : LivingEntity {
 
 
 			player.WeaponSwitch(4);
+			player.bigRedUnlocked = true;
 			player.killCycleCount = 0;
 			playerUI.AddKillCount(player.killCycleCount);
 			playerUI.BigRedUI.SetActive(true);

@@ -120,6 +120,7 @@ public class WaterableObject : MonoBehaviour {
 				FindObjectOfType<PlayerUI>().StartCoroutine(FindObjectOfType<PlayerUI>().UnlockAnimation());
 
 				player.WeaponSwitch(3);
+				player.raygunUnlocked = true;
 				FindObjectOfType<PlayerUI>().thePewPewUI.SetActive(true);
 			}
 

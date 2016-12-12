@@ -17,6 +17,11 @@ public class PlayerController : LivingEntity {
 	int index;
 	public enum WeaponSelected{None, WetWillie, RayGun, Doominator, Reverend, BigRed};
 	public WeaponSelected weaponSelected;
+	public bool raygunUnlocked = false;
+	public bool doominatorUnlocked = false;
+	public bool reverendUnlocked = false;
+	public bool bigRedUnlocked = false;
+
 
 	[Header("Sounds")]
 	public GameObject musicPlayer;
@@ -173,25 +178,20 @@ public class PlayerController : LivingEntity {
 			//selecting weapons when shift is released
 			if (Input.GetKeyUp(KeyCode.LeftShift)){
 				
-				if (weaponSelected == WeaponSelected.Doominator && index != 0){
+				if (weaponSelected == WeaponSelected.Doominator && index != 0 && doominatorUnlocked == true){
 					WeaponSwitch(0);
-					index = 0;
 
 				} else if (weaponSelected == WeaponSelected.WetWillie && index != 1){
 					WeaponSwitch(1);
-					index = 1;
 
-				} else if (weaponSelected == WeaponSelected.Reverend && index != 2){
+				} else if (weaponSelected == WeaponSelected.Reverend && index != 2 && reverendUnlocked == true){
 					WeaponSwitch(2);
-					index = 2;
 
-				} else if (weaponSelected == WeaponSelected.RayGun && index != 3){
+				} else if (weaponSelected == WeaponSelected.RayGun && index != 3 && raygunUnlocked == true){
 					WeaponSwitch(3);
-					index = 3;
 
-				} else if (weaponSelected == WeaponSelected.BigRed && index != 4){
+				} else if (weaponSelected == WeaponSelected.BigRed && index != 4 && bigRedUnlocked == true){
 					WeaponSwitch(4);
-					index = 4;
 
 				}
 
@@ -244,6 +244,8 @@ public class PlayerController : LivingEntity {
 		if( OnWeaponSwitch != null){
 			OnWeaponSwitch();
 		}
+
+		index = weaponIndex;
 	}
 
 	public override void TakeDamage (float damage){
