@@ -11,6 +11,7 @@ public class GunController : MonoBehaviour {
 	public AudioClip[] wetWillieSFX;
 	public AudioClip[] bigRedSFX;
 	public AudioClip noAmmo;
+	public AudioClip hitDetected;
 
 
 	public enum Firemode{Single, Automatic};
@@ -169,6 +170,7 @@ public class GunController : MonoBehaviour {
 				RaycastHit hit = hits[i];
 				if(canDamage){
 					OnDamageObject(hit);
+					FindObjectOfType<PlayerUI>().AnimateSmallHitMarker();
 
 				} else {
 					OnMoveObject(hit);
@@ -359,6 +361,9 @@ public class GunController : MonoBehaviour {
 		if (damageableObject != null){
 			Camera viewCamera = Camera.main;
 			damageableObject.TakeHit(damage, hit.point, viewCamera.gameObject.transform.forward);
+			FindObjectOfType<PlayerUI>().StopCoroutine("AnimateSmallHitMarker");
+			FindObjectOfType<PlayerUI>().StartCoroutine("AnimateSmallHitMarker");
+			player.audioSourceSFX.PlayOneShot(hitDetected, 0.5f);
 		}
 
 		if(hit.rigidbody != null && hit.collider.gameObject.tag != "Enemy"){

@@ -17,6 +17,9 @@ public class PlayerUI : MonoBehaviour {
 	public GameObject wasdUI;
 	public GameObject shiftUI;
 
+	[Header("HitMarker")]
+	public GameObject hitMarkerSmall;
+
 	[Header("FlashLight")]
 	public GameObject flashLight;
 	bool flashHasActivated = false;
@@ -383,6 +386,22 @@ public class PlayerUI : MonoBehaviour {
 			padlock.GetComponent<Image>().color = Color.Lerp(Color.white, Color.clear, percent);
 			yield return null;
 		}
+	}
+
+	public IEnumerator AnimateSmallHitMarker(){
+//		hitMarkerSmall.GetComponent<Animator>().Play("Hit");
+		hitMarkerSmall.SetActive(true);
+		float percent = 0;
+		float time = 2;
+		float speed = 1/time;
+
+		while(percent < 1){
+			percent += Time.deltaTime * speed;
+			hitMarkerSmall.GetComponent<Image>().color = Color.Lerp(Color.white, Color.clear, percent);
+
+			yield return null;
+		}
+
 	}
 
 }
