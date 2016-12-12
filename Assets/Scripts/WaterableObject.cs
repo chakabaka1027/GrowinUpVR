@@ -48,7 +48,7 @@ public class WaterableObject : MonoBehaviour {
 	void Start () {
 		StartCoroutine(Grow());
 		audioSource = audioPlayer.GetComponent<AudioSource>();
-		
+
 		if(waterableFill != null){
 			waterableFill.fillAmount = 0;
 		}

@@ -7,6 +7,9 @@ public class PlayerUI : MonoBehaviour {
 
 	public GameObject gameplayUI;
 
+	[Header("Cookie")]
+	public GameObject cookieUI;
+
 	[Header("Sounds")]
 	public AudioClip heartBeat;
 	public AudioSource heartBeatSource;

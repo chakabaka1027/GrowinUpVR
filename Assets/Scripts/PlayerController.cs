@@ -64,7 +64,7 @@ public class PlayerController : LivingEntity {
 	public int rhmMax = 7;
 	public int bigRedMax = 3;
 	GameObject equippedGun;
-	//int shotgunWatergunSwitch = 0;
+	public bool hasCookie;
 
 	[Header("Weapon Switching")]
 	public float blurTime = 1;
@@ -199,7 +199,7 @@ public class PlayerController : LivingEntity {
 
 			} 
 
-			if (Input.GetKeyDown(KeyCode.E)){
+			if (Input.GetKeyDown(KeyCode.E) && hasCookie == true){
 				ThrowCookie();
 			}
 
@@ -480,8 +480,19 @@ public class PlayerController : LivingEntity {
 		}
 	}
 
+	public void HasCookie(){
+		FindObjectOfType<PlayerUI>().cookieUI.SetActive(true);
+		hasCookie = true;
+	}
+
+	public void NoCookie(){
+		FindObjectOfType<PlayerUI>().cookieUI.SetActive(false);
+		hasCookie = false;
+	}
+
 	public void ThrowCookie(){
 		Instantiate(cookie, transform.position, Quaternion.identity);
+		NoCookie();
 	}
 
 }

@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class CabbageBear : LivingEntity {
 
+	public GameObject cookiePowerUp;
+
 	public LayerMask seekableObjects;
 	public AnimationClip attackingAnimation;
 
@@ -171,7 +173,7 @@ public class CabbageBear : LivingEntity {
 				isAttacking = true;
 
 				GetComponent<Animator>().Play("Attacking");
-				yield return new WaitForSeconds(attackingAnimation.length*2);
+				yield return new WaitForSeconds(attackingAnimation.length);
 				if (this != null){
 					this.target.GetComponent<WaterableObject>().isOnFire = true;
 				}
@@ -226,6 +228,8 @@ public class CabbageBear : LivingEntity {
 
 		FindObjectOfType<PlayerController>().killCycleCount += 20;
 		FindObjectOfType<PlayerUI>().AddKillCount(FindObjectOfType<PlayerController>().killCycleCount);
+
+		Instantiate(cookiePowerUp, transform.position + Vector3.up, Quaternion.identity);
 
 		Destroy(gameObject);
 	}
