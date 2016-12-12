@@ -19,6 +19,7 @@ public class PlayerUI : MonoBehaviour {
 
 	[Header("HitMarker")]
 	public GameObject hitMarkerSmall;
+	public GameObject hitMarkerLarge;
 
 	[Header("FlashLight")]
 	public GameObject flashLight;
@@ -389,15 +390,29 @@ public class PlayerUI : MonoBehaviour {
 	}
 
 	public IEnumerator AnimateSmallHitMarker(){
-//		hitMarkerSmall.GetComponent<Animator>().Play("Hit");
 		hitMarkerSmall.SetActive(true);
 		float percent = 0;
-		float time = 2;
+		float time = 0.5f;
 		float speed = 1/time;
 
 		while(percent < 1){
 			percent += Time.deltaTime * speed;
 			hitMarkerSmall.GetComponent<Image>().color = Color.Lerp(Color.white, Color.clear, percent);
+
+			yield return null;
+		}
+
+	}
+
+	public IEnumerator AnimateLargeHitMarker(){
+		hitMarkerLarge.SetActive(true);
+		float percent = 0;
+		float time = 0.5f;
+		float speed = 1/time;
+
+		while(percent < 1){
+			percent += Time.deltaTime * speed;
+			hitMarkerLarge.GetComponent<Image>().color = Color.Lerp(Color.white, Color.clear, percent);
 
 			yield return null;
 		}

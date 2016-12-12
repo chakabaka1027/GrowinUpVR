@@ -62,7 +62,7 @@ public class GunController : MonoBehaviour {
 
 	Camera viewCamera;
 	bool canShoot = false;
-	PlayerController player;
+	public PlayerController player;
 
 	void Start () {
 		readyPosition = transform.localPosition;
@@ -361,9 +361,15 @@ public class GunController : MonoBehaviour {
 		if (damageableObject != null){
 			Camera viewCamera = Camera.main;
 			damageableObject.TakeHit(damage, hit.point, viewCamera.gameObject.transform.forward);
-			FindObjectOfType<PlayerUI>().StopCoroutine("AnimateSmallHitMarker");
-			FindObjectOfType<PlayerUI>().StartCoroutine("AnimateSmallHitMarker");
-			player.audioSourceSFX.PlayOneShot(hitDetected, 0.5f);
+
+			if(fireAttribute == FireAttribute.Lazer || fireAttribute == FireAttribute.Penetrate){
+				FindObjectOfType<PlayerUI>().StopCoroutine("AnimateSmallHitMarker");
+				FindObjectOfType<PlayerUI>().StartCoroutine("AnimateSmallHitMarker");
+			} else if(fireAttribute == FireAttribute.RocketLauncher || fireAttribute == FireAttribute.Shotgun || fireAttribute == FireAttribute.WaterGun){
+				FindObjectOfType<PlayerUI>().StopCoroutine("AnimateLargeHitMarker");
+				FindObjectOfType<PlayerUI>().StartCoroutine("AnimateLargeHitMarker");
+			}
+			player.audioSourceSFX.PlayOneShot(hitDetected, 0.35f);
 		}
 
 		if(hit.rigidbody != null && hit.collider.gameObject.tag != "Enemy"){

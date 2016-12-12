@@ -47,11 +47,20 @@ public class AppleBomb : MonoBehaviour {
 
 			if (col.gameObject.tag == "Enemy"){
 				if (col.GetComponent<PickleBear>() != null){
+					FindObjectOfType<PlayerUI>().StopCoroutine("AnimateLargeHitMarker");
+					FindObjectOfType<PlayerUI>().StartCoroutine("AnimateLargeHitMarker");
+					FindObjectOfType<GunController>().player.audioSourceSFX.PlayOneShot(FindObjectOfType<GunController>().hitDetected, 0.35f);
+
 					col.GetComponent<PickleBear>().Die();
 				}
 				if (col.GetComponent<CabbageBear>() != null){
+					FindObjectOfType<PlayerUI>().StopCoroutine("AnimateLargeHitMarker");
+					FindObjectOfType<PlayerUI>().StartCoroutine("AnimateLargeHitMarker");					
+					FindObjectOfType<GunController>().player.audioSourceSFX.PlayOneShot(FindObjectOfType<GunController>().hitDetected, 0.35f);
+
 					col.GetComponent<CabbageBear>().TakeHit(40, col.gameObject.transform.position, Camera.main.gameObject.transform.forward);
 				}
+
 			}
 
 			if (col.gameObject.tag == "TreeDuplicator"){
