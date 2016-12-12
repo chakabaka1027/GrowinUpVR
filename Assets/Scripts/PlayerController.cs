@@ -22,6 +22,8 @@ public class PlayerController : LivingEntity {
 	public bool reverendUnlocked = false;
 	public bool bigRedUnlocked = false;
 
+	[Header("Cookie")]
+	public GameObject cookie;
 
 	[Header("Sounds")]
 	public GameObject musicPlayer;
@@ -196,6 +198,10 @@ public class PlayerController : LivingEntity {
 				}
 
 			} 
+
+			if (Input.GetKeyDown(KeyCode.E)){
+				ThrowCookie();
+			}
 
 		}
 
@@ -472,6 +478,10 @@ public class PlayerController : LivingEntity {
 			recoilHandler.transform.localEulerAngles = Vector3.Slerp(currentPos, new Vector3(-1 * cameraShakeY, randomY, 0), interpolation);
 			yield return null;
 		}
+	}
+
+	public void ThrowCookie(){
+		Instantiate(cookie, transform.position, Quaternion.identity);
 	}
 
 }

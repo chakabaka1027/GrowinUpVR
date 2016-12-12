@@ -64,6 +64,13 @@ public class PickleBear : LivingEntity {
 //			}
 		}
 
+		if (FindObjectOfType<Cookie>() != null){
+			target = FindObjectOfType<Cookie>().gameObject.transform;
+		} else if (FindObjectOfType<Cookie>() == null){
+			target = GameObject.FindGameObjectWithTag("Player").transform;
+
+		}
+
 	}
 
 	public override void TakeHit(float damage, Vector3 hitPoint, Vector3 hitDirection){

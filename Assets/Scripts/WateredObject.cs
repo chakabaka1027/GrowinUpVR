@@ -117,7 +117,7 @@ public class WateredObject : MonoBehaviour {
 
 			while(isOnFire == true){
 				
-				yield return new WaitForSeconds(0.2f);
+				yield return new WaitForSeconds(.75f);
 
 				if (this != null){
 					FillDamage(.5f);
