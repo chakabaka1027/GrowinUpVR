@@ -21,11 +21,14 @@ public class PlayerController : LivingEntity {
 	public bool doominatorUnlocked = false;
 	public bool reverendUnlocked = false;
 	public bool bigRedUnlocked = false;
+	public bool isSwitching = false;
 
 	[Header("Cookie")]
 	public GameObject cookie;
 
 	[Header("Sounds")]
+	public AudioClip weaponWheelSound;
+	public AudioClip takeDamage;
 	public GameObject musicPlayer;
 	public AudioSource audioSourceMusic;
 	public AudioSource audioSourceSFX;
@@ -162,6 +165,11 @@ public class PlayerController : LivingEntity {
 
 			//Weapon Switching
 			if (Input.GetKey(KeyCode.LeftShift)){
+				if (isSwitching == false){
+					audioSourceSFX.PlayOneShot(weaponWheelSound, 0.25f);
+					isSwitching = true;
+				}
+
 				weaponSway = FindObjectOfType<WeaponSway>();
 				weaponSway.enabled = false;
 
@@ -196,6 +204,7 @@ public class PlayerController : LivingEntity {
 					WeaponSwitch(4);
 
 				}
+				isSwitching = false;
 
 			} 
 
@@ -257,6 +266,8 @@ public class PlayerController : LivingEntity {
 	public override void TakeDamage (float damage){
 		if (takingDamage == false){
 			takingDamage = true;
+			audioSourceSFX.PlayOneShot(takeDamage, 0.5f);
+
 			StartCoroutine(PostDamageInvulnerability());
 			FindObjectOfType<PlayerUI>().LoseHealth(health, damage);
 			FindObjectOfType<PlayerUI>().TakeDamageUI();

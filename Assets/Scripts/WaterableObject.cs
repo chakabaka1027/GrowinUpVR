@@ -13,6 +13,7 @@ public class WaterableObject : MonoBehaviour {
 	public GameObject audioPlayer;
 	AudioSource audioSource;
 
+
 	[Header("Attributes")]
 	public LayerMask waterable;
 	public float heal = 10;
@@ -161,6 +162,7 @@ public class WaterableObject : MonoBehaviour {
 		}
 
 		Destroy(Instantiate(explosion, this.gameObject.transform.position + Vector3.up * 1f, Quaternion.Euler(-90, 0, 0)) as GameObject, 5f);
+
 		damageableUI.SetActive(false);
 
 

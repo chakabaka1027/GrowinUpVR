@@ -13,6 +13,9 @@ public class PlayerUI : MonoBehaviour {
 	[Header("Sounds")]
 	public AudioClip heartBeat;
 	public AudioSource heartBeatSource;
+	public AudioClip menuSelectionSFX;
+	public AudioClip weaponUnlockSFX;
+	public AudioClip gainHealthSFX;
 
 	[Header("Intro Text")]
 	public Text introText;
@@ -155,7 +158,10 @@ public class PlayerUI : MonoBehaviour {
 		health = health * 0.01f;
 		heal = heal * .01f;
 		healthUI.fillAmount = health + heal;
-		SpawnHealthParticles();
+
+		StartCoroutine(SpawnHealthParticles());
+
+
 	}
 
 	public void AddGrowCount(){
@@ -174,10 +180,13 @@ public class PlayerUI : MonoBehaviour {
 
 	}
 
-	void SpawnHealthParticles(){
+	IEnumerator SpawnHealthParticles(){
+
 		GameObject healthEffect = Instantiate(healthParticle, transform.position, transform.localRotation) as GameObject;
 		healthEffect.transform.parent = Camera.main.transform;
 		healthEffect.transform.localPosition += Vector3.forward * 0.4f;
+		yield return new WaitForSeconds(0.2f);
+		player.audioSourceSFX.PlayOneShot(gainHealthSFX, 0.5f);
 		Destroy(healthEffect, 4);
 	}
 
@@ -378,6 +387,8 @@ public class PlayerUI : MonoBehaviour {
 		padlock.GetComponent<Image>().color = color;
 
 		yield return new WaitForSeconds(0.25f);
+
+		player.audioSourceSFX.PlayOneShot(weaponUnlockSFX, 0.5f);
 		padlock.GetComponent<Animator>().Play("Unlock");
 
 		float percent = 0;

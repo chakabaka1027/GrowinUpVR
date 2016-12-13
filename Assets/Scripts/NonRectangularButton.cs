@@ -16,6 +16,8 @@ public class NonRectangularButton : MonoBehaviour {
         public UnityEvent onMouseExit;
         public UnityEvent whileMouseOver;
         public UnityEvent whileMouseAway;
+
+        bool isSelected = false;
  
         private PolygonCollider2D polygonCollider;
         private ColliderDetectMouseover filter;
@@ -40,6 +42,11 @@ public class NonRectangularButton : MonoBehaviour {
                 // Detect mouse over and mouse click, and invoke events based on this, along with color changes as necessary.
                 if (interactable) {
                         if (filter.isMouseOver ()) {
+                        		if (isSelected == false){
+									FindObjectOfType<PlayerController>().audioSourceSFX.PlayOneShot(FindObjectOfType<PlayerUI>().menuSelectionSFX, 0.1f);
+									isSelected = true;
+								}
+
                                 whileMouseOver.Invoke ();
                                 if (Input.GetMouseButtonUp(0)) {
                                         onClick.Invoke ();
@@ -65,6 +72,8 @@ public class NonRectangularButton : MonoBehaviour {
  
                                 whileMouseAway.Invoke ();
                                 targetColor = normalColor;
+								isSelected = false;
+					
                         }
                 } else {
                         targetColor = disabledColor;
@@ -72,7 +81,7 @@ public class NonRectangularButton : MonoBehaviour {
  
                 targetImage.color = Color.Lerp (targetImage.color, targetColor, Time.deltaTime*fadeSpeed);
         }
- 
+
         public void testPrint() {
                 print("test");
         }

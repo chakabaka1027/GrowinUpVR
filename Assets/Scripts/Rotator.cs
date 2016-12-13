@@ -3,8 +3,16 @@ using System.Collections;
 
 public class Rotator : MonoBehaviour {
 
+	public AudioClip collect;
+	AudioSource audioSource;
+	GameObject lightSource;
+	GameObject cookieVisual;
+
 	// Use this for initialization
 	void Start () {
+		audioSource = gameObject.transform.FindChild("AudioSource").GetComponent<AudioSource>();
+		lightSource = gameObject.transform.FindChild("Point light").gameObject;
+		cookieVisual = gameObject.transform.FindChild("Cookie").gameObject;
 
 	}
 
@@ -18,6 +26,12 @@ public class Rotator : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col){
 		if(col.gameObject.tag == "Player"){
+			gameObject.transform.DetachChildren();
+			audioSource.PlayOneShot(collect, 0.5f);
+			Destroy(audioSource.gameObject, 2);
+			Destroy(lightSource);
+			Destroy(cookieVisual);
+
 			FindObjectOfType<PlayerController>().HasCookie();
 			Destroy(gameObject);
 		}
