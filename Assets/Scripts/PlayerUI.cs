@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerUI : MonoBehaviour {
 
+	public int pickleBearDeathCount;
+	public int cabbageBearDeathCount;
+	
 	public GameObject gameplayUI;
 
 	[Header("Cookie")]
@@ -40,6 +43,17 @@ public class PlayerUI : MonoBehaviour {
 	public Button menu;
 	public Text gameOverDayCount;
 	public Text gameOverGrowCount;
+
+	public GameObject paper;
+	public GameObject allScoreText;
+
+	public GameObject sproutGameValue;
+	public GameObject sproutScoreValue;
+	public GameObject bearGameValue;
+	public GameObject bearScoreValue;
+	public GameObject dayGameValue;
+	public GameObject dayScoreValue;
+	public GameObject totalScore;
 
 	[Header("Waterable Object")]
 	public LayerMask waterable;
@@ -251,31 +265,86 @@ public class PlayerUI : MonoBehaviour {
 		int dayCount = FindObjectOfType<DayAndNightCycle>().dayCounter;
 		player.depthOfField.enabled = true;
 
-
+		//erase game ui and fade in "your responsibilities consumed you" text
 		gameplayUI.SetActive(false);
 		gameOverBacking.SetActive(true);
 		gameOverText.gameObject.SetActive(true);
 		gameOverText.CrossFadeAlpha(0, 0.01f, false);
 		gameOverText.CrossFadeAlpha(1, 3, false);
 
-		yield return new WaitForSeconds(1);
-		gameOverDayCount.gameObject.SetActive(true);
-		gameOverDayCount.CrossFadeAlpha(0, 0.01f, false);
-		gameOverDayCount.CrossFadeAlpha(1, 2f, false);
-		gameOverDayCount.text = "Days Survived: " + dayCount;
+		yield return new WaitForSeconds(3.5f);
 
-		yield return new WaitForSeconds(1f);
-		gameOverGrowCount.gameObject.SetActive(true);
-		gameOverGrowCount.CrossFadeAlpha(0, 0.01f, false);
-		gameOverGrowCount.CrossFadeAlpha(1, 2f, false);
-		gameOverGrowCount.text = "Sprouts Bloomed: " + growCount;
+		//animate paper to move up the screen
+		paper.SetActive(true);
+		paper.GetComponent<Animator>().Play("MoveUp");
+
+		yield return new WaitForSeconds(.1f);
+		allScoreText.SetActive(true);
+		allScoreText.GetComponent<Animator>().Play("MoveUp");
 
 		yield return new WaitForSeconds(2);
+
+		//calculations for game values
+		sproutGameValue.GetComponent<Text>().text = string.Format("{0:n0}", growCount);
+		yield return new WaitForSeconds(1);
+		bearGameValue.GetComponent<Text>().text = string.Format("{0:n0}", pickleBearDeathCount + cabbageBearDeathCount);
+		yield return new WaitForSeconds(1);
+		dayGameValue.GetComponent<Text>().text = string.Format("{0:n0}", dayCount);
+
+		yield return new WaitForSeconds(2);
+
+		//calculations for score values
+		sproutScoreValue.GetComponent<Text>().text = string.Format("{0:n0}", growCount * 50);
+		yield return new WaitForSeconds(1);
+		bearScoreValue.GetComponent<Text>().text = string.Format("{0:n0}", (pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20));
+		yield return new WaitForSeconds(1);
+		dayScoreValue.GetComponent<Text>().text = "x " + GetDayCombo(dayCount);
+
+		yield return new WaitForSeconds(2);
+
+		//total score value calculation
+		totalScore.GetComponent<Text>().text = string.Format("{0:n0}", ((growCount * 50) + ((pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20))) * GetDayCombo(dayCount));
+		string.Format("{0:n0}", 9876);
+
+		yield return new WaitForSeconds(1);
 		Cursor.visible = true;
 		Cursor.lockState = CursorLockMode.Confined;
 		retry.gameObject.SetActive(true);
 		menu.gameObject.SetActive(true);
 
+	}
+
+	int GetDayCombo(int dayCount){
+		if (dayCount == 1 || dayCount == 2 || dayCount == 3){
+			return 1;
+		}
+		else if (dayCount == 4 || dayCount == 5 || dayCount == 6){
+			return 2;
+		}
+		else if (dayCount == 7 || dayCount == 8 || dayCount == 9){
+			return 3;
+		}
+		else if (dayCount == 10 || dayCount == 11 || dayCount == 12){
+			return 4;
+		}
+		else if (dayCount == 13 || dayCount == 14 || dayCount == 15){
+			return 5;
+		} 
+		else if (dayCount == 16 || dayCount == 17 || dayCount == 18){
+			return 6;
+		}
+		else if (dayCount == 19 || dayCount == 20 || dayCount == 21){
+			return 7;
+		}
+		else if (dayCount == 22 || dayCount == 23 || dayCount == 24){
+			return 8;
+		}
+		else if (dayCount == 25 || dayCount == 26 || dayCount == 27){
+			return 9;
+		}
+		else {
+			return 10;
+		}
 	}
 
 	public void IncreaseDayCount(int dayCount){

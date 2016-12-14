@@ -246,6 +246,8 @@ public class CabbageBear : LivingEntity {
 			player.audioSourceSFX.PlayOneShot(player.BigRedAmmo, 0.5f);
 		}
 
+		playerUI.cabbageBearDeathCount ++;
+
 		Destroy(gameObject);
 	}
 		

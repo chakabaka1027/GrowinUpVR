@@ -187,6 +187,8 @@ public class PickleBear : LivingEntity {
 			player.audioSourceSFX.PlayOneShot(player.BigRedAmmo, 0.5f);
 		}
 
+		playerUI.pickleBearDeathCount ++;
+
 		Destroy(gameObject);
 	}
 
