@@ -29,6 +29,7 @@ public class PlayerController : LivingEntity {
 	[Header("Sounds")]
 	public AudioClip weaponWheelSound;
 	public AudioClip takeDamage;
+	public AudioClip throwSound;
 	public GameObject musicPlayer;
 	public AudioSource audioSourceMusic;
 	public AudioSource audioSourceSFX;
@@ -502,6 +503,7 @@ public class PlayerController : LivingEntity {
 	}
 
 	public void ThrowCookie(){
+		audioSourceSFX.PlayOneShot(throwSound, 0.5f);
 		Instantiate(cookie, transform.position, Quaternion.identity);
 		NoCookie();
 	}

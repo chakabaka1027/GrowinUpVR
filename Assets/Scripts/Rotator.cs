@@ -25,7 +25,7 @@ public class Rotator : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		if(col.gameObject.tag == "Player"){
+		if(col.gameObject.tag == "Player" && !FindObjectOfType<PlayerController>().hasCookie){
 			gameObject.transform.DetachChildren();
 			audioSource.PlayOneShot(collect, 0.5f);
 			Destroy(audioSource.gameObject, 2);

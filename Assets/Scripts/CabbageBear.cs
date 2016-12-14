@@ -27,10 +27,15 @@ public class CabbageBear : LivingEntity {
 	float myCollisionRadius = 2;
 	float targetCollisionRadius = 2;
 
+	PlayerController player;
+	PlayerUI playerUI;
+
 
 	// Use this for initialization
 	protected override void Start () {
 		audioSource = audioPlayer.GetComponent<AudioSource>();
+		player = FindObjectOfType<PlayerController>();
+		playerUI = FindObjectOfType<PlayerUI>();
 
 		pathfinder = GetComponent<NavMeshAgent>();
 
@@ -230,6 +235,16 @@ public class CabbageBear : LivingEntity {
 		FindObjectOfType<PlayerUI>().AddKillCount(FindObjectOfType<PlayerController>().killCycleCount);
 
 		Instantiate(cookiePowerUp, transform.position + Vector3.up, Quaternion.identity);
+
+		if (player.killCycleCount >= player.bigRedKillCount && player.hasBigRed == true){
+
+			FindObjectOfType<PlayerUI>().UnlockWeaponText("Big Red Ammo Gained!", 0);
+
+			player.ammo[2] = player.bigRedMax;
+			player.killCycleCount = 0;
+			playerUI.AddKillCount(player.killCycleCount);
+			player.audioSourceSFX.PlayOneShot(player.BigRedAmmo, 0.5f);
+		}
 
 		Destroy(gameObject);
 	}

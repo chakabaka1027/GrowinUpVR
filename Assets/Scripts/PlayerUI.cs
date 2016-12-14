@@ -16,6 +16,7 @@ public class PlayerUI : MonoBehaviour {
 	public AudioClip menuSelectionSFX;
 	public AudioClip weaponUnlockSFX;
 	public AudioClip gainHealthSFX;
+	public AudioClip addAmmoSFX;
 
 	[Header("Intro Text")]
 	public Text introText;
@@ -209,7 +210,15 @@ public class PlayerUI : MonoBehaviour {
 		heartBeatSource.Stop();
 	}
 
+	void PlayReloadSound(){
+		FindObjectOfType<PlayerController>().audioSourceSFX.PlayOneShot(addAmmoSFX, 0.25f);
+	}
+
 	public void AddAmmo(int shotgunAmmoAddition, int pistolAmmoAddition){
+
+		if (FindObjectOfType<PlayerController>().hasDoominator == true){
+			Invoke("PlayReloadSound", 0.55f);
+		}
 
 		if (shotgunAmmoAddition == 0){
 			ammoAdditionCount[0].text = "Ammo Full";
