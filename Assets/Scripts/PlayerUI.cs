@@ -353,8 +353,8 @@ public class PlayerUI : MonoBehaviour {
     }
 
     void ScoreValueAnimation(GameObject uiElement, int value){
-		uiElement.GetComponent<Text>().text = value + "";
 		uiElement.GetComponent<Animator>().Play("Default");
+		uiElement.GetComponent<Text>().text = value + "";
 		player.audioSourceSFX.PlayOneShot(scoreValueSFX, 0.75f);
     }
 
