@@ -59,7 +59,6 @@ public class PlayerUI : MonoBehaviour {
 	public GameObject dayScoreValue;
 	public GameObject totalScore;
 
-	public ParticleSystem[] backgroundFireworks;
 
 	[Header("Waterable Object")]
 	public LayerMask waterable;
@@ -323,7 +322,7 @@ public class PlayerUI : MonoBehaviour {
 		yield return new WaitForSeconds(.5f);
 
 		if ((growCount * 50) + ((pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20)) * GetDayCombo(dayCount) > 1){
-			StartCoroutine(Celebration());
+			Celebration();
 		}
 
 		yield return new WaitForSeconds(1);
@@ -359,20 +358,8 @@ public class PlayerUI : MonoBehaviour {
 		player.audioSourceSFX.PlayOneShot(scoreValueSFX, 0.75f);
     }
 
-    IEnumerator Celebration(){
+    void Celebration(){
 		player.audioSourceSFX.PlayOneShot(celebrationSFX, 0.5f);
-//		player.audioSourceSFX.PlayOneShot(fireworksSFX, 0.5f);
-
-		foreach(ParticleSystem firework in backgroundFireworks){
-			firework.gameObject.SetActive(true);
-			firework.loop = true;
-
-			firework.Play();
-
-			yield return new WaitForSeconds(.5f);
-
-			firework.loop = false;
-		}
     }
 
 	int GetDayCombo(int dayCount){
