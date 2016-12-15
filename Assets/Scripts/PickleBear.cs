@@ -83,6 +83,8 @@ public class PickleBear : LivingEntity {
 	}
 
 	public override void Die (){
+		playerUI.pickleBearDeathCount ++;
+
 		int percentChance = Random.Range(1, 101);
 		Instantiate(deathCloud, gameObject.transform.position + Vector3.down * 0.75f, Quaternion.Euler(Vector3.left * 90));
 
@@ -187,7 +189,6 @@ public class PickleBear : LivingEntity {
 			player.audioSourceSFX.PlayOneShot(player.BigRedAmmo, 0.5f);
 		}
 
-		playerUI.pickleBearDeathCount ++;
 
 		Destroy(gameObject);
 	}
@@ -234,7 +235,7 @@ public class PickleBear : LivingEntity {
 			yield return null;
 		}
 		pathfinder.speed = nightSpeed;
-		pathfinder.acceleration = 18;
+		pathfinder.acceleration = 15;
 
 
 	}

@@ -20,6 +20,10 @@ public class PlayerUI : MonoBehaviour {
 	public AudioClip weaponUnlockSFX;
 	public AudioClip gainHealthSFX;
 //	public AudioClip addAmmoSFX;
+	public AudioClip gameValueSFX;
+	public AudioClip scoreValueSFX;
+	public AudioClip celebrationSFX;
+	public AudioClip fireworksSFX;
 
 	[Header("Intro Text")]
 	public Text introText;
@@ -54,6 +58,8 @@ public class PlayerUI : MonoBehaviour {
 	public GameObject dayGameValue;
 	public GameObject dayScoreValue;
 	public GameObject totalScore;
+
+	public ParticleSystem[] backgroundFireworks;
 
 	[Header("Waterable Object")]
 	public LayerMask waterable;
@@ -282,29 +288,43 @@ public class PlayerUI : MonoBehaviour {
 		allScoreText.SetActive(true);
 		allScoreText.GetComponent<Animator>().Play("MoveUp");
 
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(3);
 
-		//calculations for game values
-		sproutGameValue.GetComponent<Text>().text = string.Format("{0:n0}", growCount);
-		yield return new WaitForSeconds(1);
-		bearGameValue.GetComponent<Text>().text = string.Format("{0:n0}", pickleBearDeathCount + cabbageBearDeathCount);
-		yield return new WaitForSeconds(1);
-		dayGameValue.GetComponent<Text>().text = string.Format("{0:n0}", dayCount);
+		//Sprouts Bloomed Values
+		StartCoroutine(CountTo(growCount, sproutGameValue));
+		yield return new WaitForSeconds(1f);
+//		sproutScoreValue.GetComponent<Text>().text = string.Format("{0:n0}", growCount * 50);
+		ScoreValueAnimation(sproutScoreValue, growCount * 50);
 
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(1.5f);
 
-		//calculations for score values
-		sproutScoreValue.GetComponent<Text>().text = string.Format("{0:n0}", growCount * 50);
-		yield return new WaitForSeconds(1);
-		bearScoreValue.GetComponent<Text>().text = string.Format("{0:n0}", (pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20));
-		yield return new WaitForSeconds(1);
+		//Bears Rejected Values
+		StartCoroutine(CountTo(pickleBearDeathCount + cabbageBearDeathCount, bearGameValue));
+		yield return new WaitForSeconds(1f);
+//		bearScoreValue.GetComponent<Text>().text = string.Format("{0:n0}", (pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20));
+		ScoreValueAnimation(bearScoreValue, (pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20));
+
+
+		yield return new WaitForSeconds(1.5f);
+
+		//Days Survived Values
+		StartCoroutine(CountTo(dayCount, dayGameValue));
+		yield return new WaitForSeconds(1f);
 		dayScoreValue.GetComponent<Text>().text = "x " + GetDayCombo(dayCount);
+		player.audioSourceSFX.PlayOneShot(scoreValueSFX, 0.5f);
+		dayScoreValue.GetComponent<Animator>().Play("Default");
 
 		yield return new WaitForSeconds(2);
 
-		//total score value calculation
-		totalScore.GetComponent<Text>().text = string.Format("{0:n0}", ((growCount * 50) + ((pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20))) * GetDayCombo(dayCount));
-		string.Format("{0:n0}", 9876);
+		//Total Score values
+//		totalScore.GetComponent<Text>().text = string.Format("{0:n0}", ((growCount * 50) + ((pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20))) * GetDayCombo(dayCount));
+		StartCoroutine(CountTo(((growCount * 50) + ((pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20))) * GetDayCombo(dayCount), totalScore));
+
+		yield return new WaitForSeconds(.5f);
+
+		if ((growCount * 50) + ((pickleBearDeathCount * 2) + (cabbageBearDeathCount * 20)) * GetDayCombo(dayCount) > 1){
+			StartCoroutine(Celebration());
+		}
 
 		yield return new WaitForSeconds(1);
 		Cursor.visible = true;
@@ -313,6 +333,47 @@ public class PlayerUI : MonoBehaviour {
 		menu.gameObject.SetActive(true);
 
 	}
+
+	IEnumerator CountTo (int target, GameObject uiElement) {
+		int score = 0;
+		float duration = 0.4f;
+
+        int start = score;
+        for (float timer = 0; timer < duration; timer += Time.deltaTime) {
+            float progress = timer / duration;
+            score = (int)Mathf.Lerp (start, target, progress);
+            if (score > 0){
+				player.audioSourceSFX.PlayOneShot(gameValueSFX, 0.75f);
+			}
+			uiElement.GetComponent<Text>().text = string.Format("{0:n0}", score);
+            yield return null;
+        }
+        score = target;
+		uiElement.GetComponent<Text>().text = string.Format("{0:n0}", target);
+
+    }
+
+    void ScoreValueAnimation(GameObject uiElement, int value){
+		uiElement.GetComponent<Text>().text = value + "";
+		uiElement.GetComponent<Animator>().Play("Default");
+		player.audioSourceSFX.PlayOneShot(scoreValueSFX, 0.75f);
+    }
+
+    IEnumerator Celebration(){
+		player.audioSourceSFX.PlayOneShot(celebrationSFX, 0.5f);
+//		player.audioSourceSFX.PlayOneShot(fireworksSFX, 0.5f);
+
+		foreach(ParticleSystem firework in backgroundFireworks){
+			firework.gameObject.SetActive(true);
+			firework.loop = true;
+
+			firework.Play();
+
+			yield return new WaitForSeconds(.5f);
+
+			firework.loop = false;
+		}
+    }
 
 	int GetDayCombo(int dayCount){
 		if (dayCount == 1 || dayCount == 2 || dayCount == 3){
