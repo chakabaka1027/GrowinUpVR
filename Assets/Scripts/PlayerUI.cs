@@ -327,7 +327,7 @@ public class PlayerUI : MonoBehaviour {
 
 		yield return new WaitForSeconds(1);
 		Cursor.visible = true;
-		Cursor.lockState = CursorLockMode.Confined;
+		Cursor.lockState = CursorLockMode.None;
 		retry.gameObject.SetActive(true);
 		menu.gameObject.SetActive(true);
 

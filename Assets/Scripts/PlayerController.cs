@@ -346,10 +346,9 @@ public class PlayerController : LivingEntity {
 			depthOfField.enabled = true;
 			//slow time
 			Time.timeScale = 0.25f;
-			//reveal and center cursor
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.lockState = CursorLockMode.Confined;
-			Cursor.visible = true;
+            //reveal and center cursor
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
 		}
 	}
 

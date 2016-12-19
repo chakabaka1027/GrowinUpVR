@@ -1,0 +1,65 @@
+Initialize engine version: 5.4.2f2 (b7e030c65c9b)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 1080 (ID=0x1b80)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.036 seconds
+Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\System.dll (this message is harmless)
+desktop: 3440x1440 60Hz; virtual: 3440x1440 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.635655 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 266c -> priority: 1 
+  Thread -> id: 1060 -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.457544 ms
+
+Unloading 43 unused Assets to reduce memory usage. Loaded Objects now: 3154.
+Total: 3.091411 ms (FindLiveObjects: 0.107816 ms CreateObjectMapping: 0.083800 ms MarkObjects: 1.004836 ms  DeleteObjects: 1.892148 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.059475 ms
+
+Unloading 97 unused Assets to reduce memory usage. Loaded Objects now: 3161.
+Total: 1.389346 ms (FindLiveObjects: 0.124678 ms CreateObjectMapping: 0.072558 ms MarkObjects: 0.961403 ms  DeleteObjects: 0.229939 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 6.143477 ms
+
+Unloading 86 unused Assets to reduce memory usage. Loaded Objects now: 3164.
+Total: 1.452196 ms (FindLiveObjects: 0.133109 ms CreateObjectMapping: 0.078945 ms MarkObjects: 1.018632 ms  DeleteObjects: 0.220997 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.317774 ms
+
+Unloading 73 unused Assets to reduce memory usage. Loaded Objects now: 3167.
+Total: 1.418472 ms (FindLiveObjects: 0.119568 ms CreateObjectMapping: 0.071281 ms MarkObjects: 1.036261 ms  DeleteObjects: 0.190849 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.381883 ms
+
+Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 3170.
+Total: 1.323686 ms (FindLiveObjects: 0.115736 ms CreateObjectMapping: 0.074091 ms MarkObjects: 1.085826 ms  DeleteObjects: 0.047520 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.407741 ms
+
+Unloading 1175 unused Assets to reduce memory usage. Loaded Objects now: 805.
+Total: 7.711154 ms (FindLiveObjects: 0.066427 ms CreateObjectMapping: 0.046243 ms MarkObjects: 0.210522 ms  DeleteObjects: 7.387450 ms)
+
