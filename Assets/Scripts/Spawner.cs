@@ -6,6 +6,8 @@ public class Spawner : MonoBehaviour {
 	public GameObject pickleBear;
 	public GameObject cabbageBear;
 
+    public LayerMask spawnableArea;
+
 	public GameObject noSpawnZone;
 	float slowSpawnRate = 3;
 	float spawnRate = 2;
@@ -30,11 +32,29 @@ public class Spawner : MonoBehaviour {
 
 			yield return new WaitForSeconds(slowSpawnRate);
 
-			GameObject enemyInstance = Instantiate(pickleBear, new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15)), Quaternion.identity) as GameObject;
-			enemyInstance.transform.parent = gameObject.transform;
-			 if (enemyInstance.transform.position == noSpawnZone.transform.position){
-			 	Destroy(enemyInstance);
-			 }
+            while (true)
+            {
+                Vector3 spawnPoint = new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15));
+
+                Collider[] spawnLocation = Physics.OverlapSphere(spawnPoint, 2, spawnableArea);
+
+                if (spawnLocation.Length <= 0)
+                {
+                    GameObject enemyInstance = Instantiate(pickleBear, spawnPoint, Quaternion.identity) as GameObject;
+                    enemyInstance.transform.parent = gameObject.transform;
+                    break;
+                }
+                else {
+                    print("retrying");
+                    continue;
+                }
+
+                //GameObject enemyInstance = Instantiate(pickleBear, new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15)), Quaternion.identity) as GameObject;
+                //enemyInstance.transform.parent = gameObject.transform;
+                //if (enemyInstance.transform.position == noSpawnZone.transform.position){
+                // 	Destroy(enemyInstance);
+                //}
+            }
 
 		}
 	}
@@ -46,10 +66,26 @@ public class Spawner : MonoBehaviour {
 
 			yield return new WaitForSeconds(spawnRate);
 
-			GameObject enemyInstance = Instantiate(pickleBear, new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15)), Quaternion.identity) as GameObject;
-			enemyInstance.transform.parent = gameObject.transform;
+            while (true){
+                Vector3 spawnPoint = new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15));
 
-		}
+                Collider[] spawnLocation = Physics.OverlapSphere(spawnPoint, 2, spawnableArea);
+
+                if (spawnLocation.Length <= 0){
+                    GameObject enemyInstance = Instantiate(pickleBear, spawnPoint, Quaternion.identity) as GameObject;
+                    enemyInstance.transform.parent = gameObject.transform;
+                    break;
+                }
+                else{
+                    print("retrying");
+
+                    continue;
+                }
+
+                //GameObject enemyInstance = Instantiate(pickleBear, new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15)), Quaternion.identity) as GameObject;
+                //enemyInstance.transform.parent = gameObject.transform;
+            }
+        }
 	}
 
 	public IEnumerator SpawnCabbageBear(){
@@ -57,8 +93,31 @@ public class Spawner : MonoBehaviour {
 		while(true){
 			float interval = Random.Range(120, 181);
 			yield return new WaitForSeconds(interval);
-			GameObject enemyInstance = Instantiate(cabbageBear, new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15)), Quaternion.identity) as GameObject;
-			enemyInstance.transform.parent = gameObject.transform;	
+
+            while (true)
+            {
+                Vector3 spawnPoint = new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15));
+
+                Collider[] spawnLocation = Physics.OverlapSphere(spawnPoint, 2, spawnableArea);
+
+                if (spawnLocation.Length <= 0)
+                {
+                    GameObject enemyInstance = Instantiate(cabbageBear, spawnPoint, Quaternion.identity) as GameObject;
+                    enemyInstance.transform.parent = gameObject.transform;
+                    break;
+                }
+                else
+                {
+                    print("retrying");
+
+                    continue;
+                }
+            }
+
+
+
+           // GameObject enemyInstance = Instantiate(cabbageBear, new Vector3(Random.Range(-30, 30), 0, Random.Range(-15, 15)), Quaternion.identity) as GameObject;
+			//enemyInstance.transform.parent = gameObject.transform;	
 		}
 	}
 

@@ -34,12 +34,17 @@ public class WateredObject : MonoBehaviour {
 	Camera viewCamera;
 	PlayerController player;
 
+    public GameObject navmeshObs;
+    GameObject currentNavMeshObs;
+
 
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(Grow());
+        StartCoroutine(SpawnNavMeshObs());
 
-		audioSource = audioPlayer.GetComponent<AudioSource>();
+
+        audioSource = audioPlayer.GetComponent<AudioSource>();
 
 		if (damageableFill != null){
 			damageableFill.fillAmount = 0;
@@ -50,7 +55,15 @@ public class WateredObject : MonoBehaviour {
 
 	}
 
-	public void FillDamage(float damageAmount){
+    IEnumerator SpawnNavMeshObs()
+    {
+        currentNavMeshObs = Instantiate(navmeshObs, gameObject.transform.position, Quaternion.identity) as GameObject;
+        yield return new WaitForSeconds(1);
+        currentNavMeshObs.transform.parent = gameObject.transform;
+
+    }
+
+    public void FillDamage(float damageAmount){
 
 		if (isDamaged == false){
 			damageFillPercentage += .1f * damageAmount;
@@ -92,19 +105,19 @@ public class WateredObject : MonoBehaviour {
 		} 
 	}
 
-	public IEnumerator Grow(){
-		
-		float randomGrowth = Random.Range(randomGrowthMin, randomGrowthMax);
-		float percent = 0;
-		float growSpeed = 1 / growTime; 
+    public IEnumerator Grow() {
 
-		while (percent < 1){
-			percent += Time.deltaTime * growSpeed;
-			gameObject.transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(randomGrowth, randomGrowth, randomGrowth), percent);
-			yield return null;
-		}
+        float randomGrowth = Random.Range(randomGrowthMin, randomGrowthMax);
+        float percent = 0;
+        float growSpeed = 1 / growTime;
 
-	}
+        while (percent < 1) {
+            percent += Time.deltaTime * growSpeed;
+            gameObject.transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(randomGrowth, randomGrowth, randomGrowth), percent);
+            yield return null;
+        }
+
+    }
 
 	public IEnumerator OnFire(){
 		if (audioSource != null){

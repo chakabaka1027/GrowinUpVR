@@ -43,12 +43,18 @@ public class WaterableObject : MonoBehaviour {
 	public GameObject tree2;
 	public GameObject pumpkin;
 
+    public GameObject navmeshObs;
+    GameObject currentNavMeshObs;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		StartCoroutine(Grow());
-		audioSource = audioPlayer.GetComponent<AudioSource>();
+        StartCoroutine(SpawnNavMeshObs());
+        //Invoke("SpawnNavMeshObs", 1);
+
+
+        audioSource = audioPlayer.GetComponent<AudioSource>();
 
 		if(waterableFill != null){
 			waterableFill.fillAmount = 0;
@@ -61,8 +67,16 @@ public class WaterableObject : MonoBehaviour {
 		player = FindObjectOfType<PlayerController>();
 	}
 
-	// Update is called once per frame
-	void Update () {		
+    IEnumerator SpawnNavMeshObs()
+    {
+        currentNavMeshObs = Instantiate(navmeshObs, gameObject.transform.position, Quaternion.identity) as GameObject;
+        yield return new WaitForSeconds(1);
+        currentNavMeshObs.transform.parent = gameObject.transform;
+
+    }
+
+    // Update is called once per frame
+    void Update () {		
 		if (waterFillPercentage < 1){
 			waterFillPercentage += -Time.deltaTime * 0.2f;
 			if (waterFillPercentage < 0){
