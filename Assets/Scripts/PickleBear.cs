@@ -29,10 +29,14 @@ public class PickleBear : LivingEntity {
 	float nightSpeed = 15;
 	float daySpeed = 10;
 
-	// Use this for initialization
-	protected override void Start () {
+    public LayerMask illegalSproutAreas;
+    Vector3 levelMidpoint = new Vector3(2, 0, 7.5f);
+
+
+    // Use this for initialization
+    protected override void Start () {
 		base.Start();
-		player = FindObjectOfType<PlayerController>();
+        player = FindObjectOfType<PlayerController>();
 		dayAndNightCycle = FindObjectOfType<DayAndNightCycle>();
 		viewCamera = Camera.main;
 		pathfinder = GetComponent<NavMeshAgent>();
@@ -199,9 +203,21 @@ public class PickleBear : LivingEntity {
 		RaycastHit hit;
 
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground)){
-			GameObject newSprout = Instantiate(existingSprout, hit.point + new Vector3(viewCamera.gameObject.transform.forward.x, 0 , viewCamera.gameObject.transform.forward.z) * 7, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
-			newSprout.GetComponent<WaterableObject>().damageFillPercentage = 0;
-			newSprout.GetComponent<WaterableObject>().waterFillPercentage = 0;
+            Vector3 sproutSpawnLocation = hit.point + new Vector3(viewCamera.gameObject.transform.forward.x, 0, viewCamera.gameObject.transform.forward.z) * 7;
+
+            Collider[] spawnLocation = Physics.OverlapSphere(sproutSpawnLocation, 2, illegalSproutAreas);
+
+            if (spawnLocation.Length <= 0){
+                GameObject newSprout = Instantiate(existingSprout, sproutSpawnLocation, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+                newSprout.GetComponent<WaterableObject>().damageFillPercentage = 0;
+                newSprout.GetComponent<WaterableObject>().waterFillPercentage = 0;
+            } else
+            {
+                GameObject newSprout = Instantiate(existingSprout, sproutSpawnLocation - ((sproutSpawnLocation - levelMidpoint)/5), Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+
+                newSprout.GetComponent<WaterableObject>().damageFillPercentage = 0;
+                newSprout.GetComponent<WaterableObject>().waterFillPercentage = 0;
+            }
 		}
 	}
 

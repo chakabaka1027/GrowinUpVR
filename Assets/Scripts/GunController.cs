@@ -372,7 +372,8 @@ public class GunController : MonoBehaviour {
 			player.audioSourceSFX.PlayOneShot(hitDetected, 0.35f);
 		}
 
-		if(hit.rigidbody != null && hit.collider.gameObject.tag != "Enemy"){
+		if(hit.rigidbody != null && hit.collider.gameObject.tag != "Enemy" && hit.collider.gameObject.tag != "TutorialEnemy")
+        {
 			Vector3 hitDirection = -viewCamera.transform.forward;
 			hit.rigidbody.AddForce(-hitDirection * shotForce);
 		}
