@@ -191,6 +191,7 @@ public class GunController : MonoBehaviour {
 			}
 			nextShotTime = Time.time + msBetweenShots / 1000;
 			player.audioSourceMusic.PlayOneShot(noAmmo, 3f);
+            NoAmmoTutorial();
 
 		}
 	}
@@ -235,6 +236,7 @@ public class GunController : MonoBehaviour {
 			}
 			nextShotTime = Time.time + msBetweenShots / 1000;
 			player.audioSourceMusic.PlayOneShot(noAmmo, 3f);
+            NoAmmoTutorial();
 
 		}
 	}
@@ -314,6 +316,7 @@ public class GunController : MonoBehaviour {
 			}
 			nextShotTime = Time.time + msBetweenShots / 1000;
 			player.audioSourceMusic.PlayOneShot(noAmmo, 3f);
+            NoAmmoTutorial();
 
 		}
 	}
@@ -425,5 +428,15 @@ public class GunController : MonoBehaviour {
 	public void OnTriggerRelease(){
 		triggerReleasedSinceLastShot = true;
 	}
+
+    void NoAmmoTutorial()
+    {
+        if (FindObjectOfType<PlayerController>().hasDepletedAmmo == false)
+        {
+            FindObjectOfType<PlayerController>().hasDepletedAmmo= true;
+            StartCoroutine(FindObjectOfType<PlayerUI>().DisplayTutorialText("Water Plants for Ammo"));
+
+        }
+    }
 
 }

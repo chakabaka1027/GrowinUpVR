@@ -23,13 +23,14 @@ public class PlayerUI : MonoBehaviour {
 	public AudioClip gameValueSFX;
 	public AudioClip scoreValueSFX;
 	public AudioClip celebrationSFX;
-	public AudioClip fireworksSFX;
 
 	[Header("Intro Text")]
 	public Text introText;
 	public GameObject rightMouseButtonUI;
 	public GameObject wasdUI;
 	public GameObject shiftUI;
+
+    public GameObject tutorialText;
 
 	[Header("HitMarker")]
 	public GameObject hitMarkerSmall;
@@ -186,13 +187,22 @@ public class PlayerUI : MonoBehaviour {
         } else if (isPumpkin == false)
         {
             StartCoroutine(SpawnHealthParticles(healthParticle));
-
         }
+    }
 
+    public IEnumerator DisplayTutorialText(string text)
+    {
+        tutorialText.SetActive(true);
+        tutorialText.GetComponent<Text>().text = text;
+        tutorialText.GetComponent<Animator>().Play("FadeIn");
+
+        yield return new WaitForSeconds(3);
+
+        tutorialText.GetComponent<Animator>().Play("FadeOut");
 
     }
 
-	public void AddGrowCount(){
+    public void AddGrowCount(){
 		growCount ++;
 		GrowCounter.text = "" + growCount;
 		growCounterIcon.GetComponent<Animator>().Play("BackingGrow");

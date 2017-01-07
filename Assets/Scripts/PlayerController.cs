@@ -13,6 +13,11 @@ public class PlayerController : LivingEntity {
 
 	bool takingDamage = false;
 
+    [Header("TutorialText")]
+    public bool hasObtainedCookie = false;
+    public bool hasDepletedAmmo = false;
+    public bool hasLowHealth = false;
+
 	[Header("WeaponWheelSelection")]
 	int index;
 	public enum WeaponSelected{None, WetWillie, RayGun, Doominator, Reverend, BigRed};
@@ -276,7 +281,16 @@ public class PlayerController : LivingEntity {
 			base.TakeDamage (damage);
 			if(health <= 20){
 				FindObjectOfType<PlayerUI>().LowHealth();
-			}
+
+                //tutorial text prompting player to shoot plants for health
+                if (hasLowHealth == false)
+                {
+                    FindObjectOfType<PlayerController>().hasLowHealth = true;
+                    StartCoroutine(FindObjectOfType<PlayerUI>().DisplayTutorialText("Destroy Plants for Health"));
+
+                }
+
+            }
 		}
 	}
 
