@@ -11,10 +11,6 @@ public class Cookie : MonoBehaviour {
 		StartCoroutine(CookieCrumbleTime());
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	IEnumerator CookieCrumbleTime(){
 		yield return new WaitForSeconds(20);

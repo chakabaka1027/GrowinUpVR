@@ -90,6 +90,7 @@ public class PlayerUI : MonoBehaviour {
 
 	[Header("Particle Effects")]
 	public GameObject healthParticle;
+    public GameObject pumpkinHealthParticle;
 
 	[Header("Day Counter")]
 	public Text dayCounter;
@@ -114,7 +115,7 @@ public class PlayerUI : MonoBehaviour {
 		growable = FindObjectOfType<WaterableObject>();
 		healthUI.fillAmount = 1.0f;
 
-		StartCoroutine(ActivateIntroText("Water the Sprout!", 1));
+		StartCoroutine(ActivateIntroText("Grow the Garden!", 1));
 		StartCoroutine(InstructionFade(wasdUI, 3f, 3.5f));
 		StartCoroutine(InstructionFade(rightMouseButtonUI, 3.5f, 3));
 		StartCoroutine(InstructionFade(shiftUI, 4f, 2.5f));
@@ -174,15 +175,22 @@ public class PlayerUI : MonoBehaviour {
 		healthUI.fillAmount = health - damage;
 	}
 
-	public void GainHealth(float health, float heal){
+	public void GainHealth(float health, float heal, bool isPumpkin){
 		health = health * 0.01f;
 		heal = heal * .01f;
 		healthUI.fillAmount = health + heal;
+        if (isPumpkin == true)
+        {
+            StartCoroutine(SpawnHealthParticles(pumpkinHealthParticle));
 
-		StartCoroutine(SpawnHealthParticles());
+        } else if (isPumpkin == false)
+        {
+            StartCoroutine(SpawnHealthParticles(healthParticle));
+
+        }
 
 
-	}
+    }
 
 	public void AddGrowCount(){
 		growCount ++;
@@ -200,9 +208,9 @@ public class PlayerUI : MonoBehaviour {
 
 	}
 
-	IEnumerator SpawnHealthParticles(){
+	IEnumerator SpawnHealthParticles(GameObject health){
 
-		GameObject healthEffect = Instantiate(healthParticle, transform.position, transform.localRotation) as GameObject;
+		GameObject healthEffect = Instantiate(health, transform.position, transform.localRotation) as GameObject;
 		healthEffect.transform.parent = Camera.main.transform;
 		healthEffect.transform.localPosition += Vector3.forward * 0.4f;
 		yield return new WaitForSeconds(0.2f);

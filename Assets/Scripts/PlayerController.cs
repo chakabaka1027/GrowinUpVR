@@ -294,12 +294,12 @@ public class PlayerController : LivingEntity {
 	}
 
 
-	public void GainHealth(float heal){
+	public void GainHealth(float heal, bool isPumpkin){
 		health += heal;
 		if (health > startingHealth){
 			health = startingHealth;
 		}
-		FindObjectOfType<PlayerUI>().GainHealth(health, heal);
+		FindObjectOfType<PlayerUI>().GainHealth(health, heal, isPumpkin);
 
 		if(health >= 20){
 			FindObjectOfType<PlayerUI>().Healthy();

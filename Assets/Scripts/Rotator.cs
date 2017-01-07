@@ -33,6 +33,9 @@ public class Rotator : MonoBehaviour {
 			Destroy(cookieVisual);
 
 			FindObjectOfType<PlayerController>().HasCookie();
+
+            FindObjectOfType<PlayerUI>().StartCoroutine(FindObjectOfType<PlayerUI>().ActivateIntroText("Cookie Obtained!", .1f));
+
 			Destroy(gameObject);
 		}
 

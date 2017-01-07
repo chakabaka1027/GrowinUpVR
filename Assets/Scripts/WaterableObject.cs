@@ -51,8 +51,6 @@ public class WaterableObject : MonoBehaviour {
     void Start () {
 		StartCoroutine(Grow());
         StartCoroutine(SpawnNavMeshObs());
-        //Invoke("SpawnNavMeshObs", 1);
-
 
         audioSource = audioPlayer.GetComponent<AudioSource>();
 
@@ -100,15 +98,15 @@ public class WaterableObject : MonoBehaviour {
 
 				Destroy(Instantiate(waterShockwave, this.gameObject.transform.position + Vector3.up * 1f, Quaternion.Euler(-90, 0, 0)) as GameObject, 2f);
 
-				if (randomPlant < 40){
+				if (randomPlant < 45){
 					GameObject currentPlant = Instantiate(tree1, this.gameObject.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
 					currentPlant.GetComponent<AudioSource>().PlayOneShot(FindObjectOfType<WateredObject>().growSound, .5f);
 		
-				} else if(randomPlant > 40 && randomPlant < 80){
+				} else if(randomPlant >= 45 && randomPlant < 90){
 					GameObject currentPlant = Instantiate(tree2, this.gameObject.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
 					currentPlant.GetComponent<AudioSource>().PlayOneShot(FindObjectOfType<WateredObject>().growSound, .5f);
 
-				} else if (randomPlant > 20){
+				} else if (randomPlant >= 90){
 					GameObject currentPlant = Instantiate(pumpkin, this.gameObject.transform.position, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
 					currentPlant.GetComponent<AudioSource>().PlayOneShot(FindObjectOfType<WateredObject>().growSound, .5f);
 
@@ -172,7 +170,7 @@ public class WaterableObject : MonoBehaviour {
 
 	public void DestroySprout(){
 		if(!isOnFire){
-			player.GainHealth(heal);
+			player.GainHealth(heal, false);
 		}
 
 		Destroy(Instantiate(explosion, this.gameObject.transform.position + Vector3.up * 1f, Quaternion.Euler(-90, 0, 0)) as GameObject, 5f);

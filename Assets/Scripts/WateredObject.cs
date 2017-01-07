@@ -83,9 +83,16 @@ public class WateredObject : MonoBehaviour {
 	}
 
 	public void DestroyWateredObject(){
-		if(!isOnFire){
-			player.GainHealth(heal);
-		}
+        if (!isOnFire)
+        {
+            if (gameObject.tag == "Pumpkin") {
+                player.GainHealth(100, true);
+            } else if (gameObject.tag == "Tree")
+                {
+                    player.GainHealth(20, false);
+                }
+
+        }
 
 			FindObjectOfType<PlayerUI>().SubtractGrowCount();
 			Destroy(Instantiate(explosion, this.gameObject.transform.position + Vector3.up * 1f, Quaternion.Euler(-90, 0, 0)) as GameObject, 5f);
