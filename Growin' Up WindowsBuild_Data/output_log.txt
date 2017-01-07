@@ -16,54 +16,9 @@ Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up Win
 Loading C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.127 seconds
+- Completed reload, in  0.167 seconds
 Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\alexa\Documents\GitHub\Growin-Up-Game\Growin' Up WindowsBuild_Data\Managed\System.dll (this message is harmless)
 desktop: 3440x1440 60Hz; virtual: 3440x1440 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-<RI> Initialized touch support.
-UnloadTime: 0.753947 ms
-Setting up 2 worker threads for Enlighten.
-  Thread -> id: 5c3c -> priority: 1 
-  Thread -> id: 5638 -> priority: 1 
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.452691 ms
-
-Unloading 43 unused Assets to reduce memory usage. Loaded Objects now: 3164.
-Total: 3.138422 ms (FindLiveObjects: 0.108071 ms CreateObjectMapping: 0.076902 ms MarkObjects: 0.876070 ms  DeleteObjects: 2.061282 ms)
-
-retrying
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
-
-retrying
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
-
-retrying
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
-
-retrying
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
-
-retrying
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
-
-retrying
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
-
-retrying
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.470575 ms
-
-Unloading 1215 unused Assets to reduce memory usage. Loaded Objects now: 793.
-Total: 7.388732 ms (FindLiveObjects: 0.042922 ms CreateObjectMapping: 0.043177 ms MarkObjects: 0.168111 ms  DeleteObjects: 7.134265 ms)
-
