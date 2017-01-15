@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof (NavMeshAgent))]
+[RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
 public class PickleBear : LivingEntity {
 
 	[Header("Sounds")]
@@ -19,7 +19,7 @@ public class PickleBear : LivingEntity {
 	public GameObject hugMeBubble;
 
 	float growTime = 1;
-	NavMeshAgent pathfinder;
+	UnityEngine.AI.NavMeshAgent pathfinder;
 	Transform target;
 	Camera viewCamera;
 	DayAndNightCycle dayAndNightCycle;
@@ -39,7 +39,7 @@ public class PickleBear : LivingEntity {
         player = FindObjectOfType<PlayerController>();
 		dayAndNightCycle = FindObjectOfType<DayAndNightCycle>();
 		viewCamera = Camera.main;
-		pathfinder = GetComponent<NavMeshAgent>();
+		pathfinder = GetComponent<UnityEngine.AI.NavMeshAgent>();
 		target = GameObject.FindGameObjectWithTag("Player").transform;
 		playerUI = FindObjectOfType<PlayerUI>();
 		audioSource = audioPlayer.GetComponent<AudioSource>();

@@ -21,7 +21,7 @@ public class CabbageBear : LivingEntity {
 
 	bool isAttacking;
 
-	NavMeshAgent pathfinder;
+	UnityEngine.AI.NavMeshAgent pathfinder;
 
 	public GameObject target;
 	float myCollisionRadius = 2;
@@ -37,7 +37,7 @@ public class CabbageBear : LivingEntity {
 		player = FindObjectOfType<PlayerController>();
 		playerUI = FindObjectOfType<PlayerUI>();
 
-		pathfinder = GetComponent<NavMeshAgent>();
+		pathfinder = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
 		base.Start();
 		StartCoroutine(Grow());
