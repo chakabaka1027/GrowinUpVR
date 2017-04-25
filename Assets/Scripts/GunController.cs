@@ -72,11 +72,11 @@ public class GunController : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (Input.GetMouseButton(0) && canShoot == true && player.isSelecting == false){
+		if (Input.GetAxis("Shoot") == 1 && canShoot == true && player.isSelecting == false){
 			OnTriggerHold();
 		}
 
-		if (Input.GetMouseButtonUp(0) && canShoot == true && player.isSelecting == false){
+		if (Input.GetAxis("Shoot") == 0 && canShoot == true && player.isSelecting == false){
 			OnTriggerRelease();
 		}
 	}

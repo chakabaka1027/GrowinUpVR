@@ -131,12 +131,14 @@ public class PlayerController : LivingEntity {
 	void Update () {
 		if(!dead && !isPaused){
 			//Look Controls
-			if(isSelecting == false){
-				transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivityX);
-				verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
-				verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
-				cam.localEulerAngles = Vector3.left * verticalLookRotation;
-			}
+			//if(isSelecting == false){
+			//	transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivityX);
+			//	verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
+			//	verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+			//	cam.localEulerAngles = Vector3.left * verticalLookRotation;
+			//}
+
+            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.rotation.x, Camera.main.gameObject.transform.eulerAngles.y, gameObject.transform.rotation.z);
 
 			//Movement
 			if (isGrounded){
@@ -153,7 +155,7 @@ public class PlayerController : LivingEntity {
 			}
 
 			//Jumping
-			if (Input.GetButtonDown("Jump")){
+			if (Input.GetKeyDown(KeyCode.Joystick1Button0)){
 				if (isGrounded && landAnimPlaying == false){
 					rb.AddForce(transform.up * jumpForce);
 					StartCoroutine(JumpAnimation());
@@ -170,7 +172,7 @@ public class PlayerController : LivingEntity {
 			}
 
 			//Weapon Switching
-			if (Input.GetKey(KeyCode.LeftShift)){
+			if (Input.GetKey(KeyCode.Joystick1Button2)){
 				if (isSwitching == false){
 					audioSourceSFX.PlayOneShot(weaponWheelSound, 0.25f);
 					isSwitching = true;
@@ -192,7 +194,7 @@ public class PlayerController : LivingEntity {
 			}
 
 			//selecting weapons when shift is released
-			if (Input.GetKeyUp(KeyCode.LeftShift)){
+			if (Input.GetKeyUp(KeyCode.Joystick1Button2)){
 				
 				if (weaponSelected == WeaponSelected.Doominator && index != 0 && doominatorUnlocked == true){
 					WeaponSwitch(0);
@@ -214,7 +216,7 @@ public class PlayerController : LivingEntity {
 
 			} 
 
-			if (Input.GetKeyDown(KeyCode.E) && hasCookie == true){
+			if (Input.GetKeyDown(KeyCode.Joystick1Button5) && hasCookie == true){
 				ThrowCookie();
 			}
 
@@ -222,7 +224,7 @@ public class PlayerController : LivingEntity {
 
 
 		//Pause Game
-		if (Input.GetKeyDown(KeyCode.Escape) && !dead){
+		if (Input.GetKeyDown(KeyCode.Joystick1Button7) && !dead){
 			isPaused = !isPaused;
 		}
 		if (isPaused){
