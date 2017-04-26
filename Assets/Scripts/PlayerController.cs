@@ -130,15 +130,32 @@ public class PlayerController : LivingEntity {
 	// Update is called once per frame
 	void Update () {
 		if(!dead && !isPaused){
-			//Look Controls
-			//if(isSelecting == false){
-			//	transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivityX);
-			//	verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
-			//	verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
-			//	cam.localEulerAngles = Vector3.left * verticalLookRotation;
-			//}
 
-            gameObject.transform.eulerAngles = new Vector3(gameObject.transform.rotation.x, Camera.main.gameObject.transform.eulerAngles.y, gameObject.transform.rotation.z);
+        if (Input.GetKeyDown(KeyCode.Joystick1Button0) && raygunUnlocked) {
+            WeaponSwitch(3);
+        }
+        if (Input.GetKeyDown(KeyCode.Joystick1Button2) && doominatorUnlocked) {
+            WeaponSwitch(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Joystick1Button1) && reverendUnlocked) {
+            WeaponSwitch(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Joystick1Button3) && bigRedUnlocked) {
+            WeaponSwitch(4);
+        }
+        if (Input.GetKeyDown(KeyCode.Joystick1Button5)) {
+            WeaponSwitch(1);
+        }
+            
+        //Look Controls
+            //if (isSelecting == false) {
+            //    transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivityX);
+            //    verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
+            //    verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+            //    cam.localEulerAngles = Vector3.left * verticalLookRotation;
+            //}
+           
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, Camera.main.transform.eulerAngles.y, transform.eulerAngles.z);
 
 			//Movement
 			if (isGrounded){
@@ -154,69 +171,69 @@ public class PlayerController : LivingEntity {
 				walkAmount = Vector3.SmoothDamp(walkAmount, targetWalkAmount, ref smoothDampMoveRef, 0.1f);
 			}
 
-			//Jumping
-			if (Input.GetKeyDown(KeyCode.Joystick1Button0)){
-				if (isGrounded && landAnimPlaying == false){
-					rb.AddForce(transform.up * jumpForce);
-					StartCoroutine(JumpAnimation());
-				}
-			}
+            //Jumping
+            //if (Input.GetKeyDown(KeyCode.Joystick1Button0)) {
+            //    if (isGrounded && landAnimPlaying == false) {
+            //        rb.AddForce(transform.up * jumpForce);
+            //        StartCoroutine(JumpAnimation());
+            //    }
+            //}
 
-			isGrounded = false;
-			Ray ray = new Ray(transform.position, -transform.up);
-			RaycastHit hit;
+            isGrounded = false;
+            Ray ray = new Ray(transform.position, -transform.up);
+            RaycastHit hit;
 
-			if(Physics.Raycast(ray, out hit, 1f + 0.05f, groundedMask)){
-				isGrounded = true;
-				headBob.enabled = true;
-			}
+            if (Physics.Raycast(ray, out hit, 1f + 0.05f, groundedMask)) {
+                isGrounded = true;
+                headBob.enabled = true;
+            }
 
-			//Weapon Switching
-			if (Input.GetKey(KeyCode.Joystick1Button2)){
-				if (isSwitching == false){
-					audioSourceSFX.PlayOneShot(weaponWheelSound, 0.25f);
-					isSwitching = true;
-				}
+            //Weapon Switching
+            //if (Input.GetKey(KeyCode.Joystick1Button2)){
+            //	if (isSwitching == false){
+            //		audioSourceSFX.PlayOneShot(weaponWheelSound, 0.25f);
+            //		isSwitching = true;
+            //	}
 
-				weaponSway = FindObjectOfType<WeaponSway>();
-				weaponSway.enabled = false;
+            //	weaponSway = FindObjectOfType<WeaponSway>();
+            //	weaponSway.enabled = false;
 
-				WaterableObject uiElement = FindObjectOfType<WaterableObject>();
-				if (uiElement != null){
-					uiElement.waterableUI.SetActive(false);
-				}
+            //	WaterableObject uiElement = FindObjectOfType<WaterableObject>();
+            //	if (uiElement != null){
+            //		uiElement.waterableUI.SetActive(false);
+            //	}
 
-				FindObjectOfType<PlayerUI>().ammoAddition.SetActive(false);
+            //	FindObjectOfType<PlayerUI>().ammoAddition.SetActive(false);
 
-				WeaponSwitchActive();
-			} else { 
-				WeaponSwitchInactive();
-			}
+            //	WeaponSwitchActive();
+            //} else { 
+            //	WeaponSwitchInactive();
+            //}
 
-			//selecting weapons when shift is released
-			if (Input.GetKeyUp(KeyCode.Joystick1Button2)){
-				
-				if (weaponSelected == WeaponSelected.Doominator && index != 0 && doominatorUnlocked == true){
-					WeaponSwitch(0);
+            ////selecting weapons when shift is released
+            //if (Input.GetKeyUp(KeyCode.Joystick1Button2)){
 
-				} else if (weaponSelected == WeaponSelected.WetWillie && index != 1){
-					WeaponSwitch(1);
+            //	if (weaponSelected == WeaponSelected.Doominator && index != 0 && doominatorUnlocked == true){
+            //		WeaponSwitch(0);
 
-				} else if (weaponSelected == WeaponSelected.Reverend && index != 2 && reverendUnlocked == true){
-					WeaponSwitch(2);
+            //	} else if (weaponSelected == WeaponSelected.WetWillie && index != 1){
+            //		WeaponSwitch(1);
 
-				} else if (weaponSelected == WeaponSelected.RayGun && index != 3 && raygunUnlocked == true){
-					WeaponSwitch(3);
+            //	} else if (weaponSelected == WeaponSelected.Reverend && index != 2 && reverendUnlocked == true){
+            //		WeaponSwitch(2);
 
-				} else if (weaponSelected == WeaponSelected.BigRed && index != 4 && bigRedUnlocked == true){
-					WeaponSwitch(4);
+            //	} else if (weaponSelected == WeaponSelected.RayGun && index != 3 && raygunUnlocked == true){
+            //		WeaponSwitch(3);
 
-				}
-				isSwitching = false;
+            //	} else if (weaponSelected == WeaponSelected.BigRed && index != 4 && bigRedUnlocked == true){
+            //		WeaponSwitch(4);
 
-			} 
+            //	}
+            //	isSwitching = false;
 
-			if (Input.GetKeyDown(KeyCode.Joystick1Button5) && hasCookie == true){
+            //} 
+
+            if (Input.GetKeyDown(KeyCode.Joystick1Button4) && hasCookie == true){
 				ThrowCookie();
 			}
 

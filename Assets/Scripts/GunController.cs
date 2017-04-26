@@ -68,7 +68,7 @@ public class GunController : MonoBehaviour {
 		readyPosition = transform.localPosition;
 		StartCoroutine(ReadyWeapon());
 		viewCamera = GetComponentInParent<Camera>();
-		player = GetComponentInParent<PlayerController>();
+		player = GameObject.FindGameObjectWithTag("Player").GetComponentInParent<PlayerController>();
 	}
 	
 	void Update () {

@@ -163,6 +163,7 @@ public class PlayerUI : MonoBehaviour {
 					wateredObject.damageableFill.fillAmount = wateredObject.damageFillPercentage;
 				}
 			}
+
 		}
 	}
 
